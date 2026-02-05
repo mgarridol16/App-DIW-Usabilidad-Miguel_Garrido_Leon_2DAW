@@ -1,0 +1,7 @@
+{
+  "name": "Portal de Capacitación Digital",
+  "description": "Una plataforma de formación profesional para adultos, diseñada para desarrollar competencias digitales clave de forma segura e intuitiva. Incluye módulos guiados, soporte interactivo con IA y un entorno de aprendizaje accesible.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
