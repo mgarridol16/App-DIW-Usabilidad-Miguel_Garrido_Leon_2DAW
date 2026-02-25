@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import type { User } from '../types';
 
 interface RegisterProps {
   onRegisterSuccess: (name: string, email: string) => void;
@@ -15,9 +14,9 @@ const checkPasswordStrength = (password: string) => {
     if (/\d/.test(password)) score++;
     if (/[^A-Za-z0-9]/.test(password)) score++;
 
-    if (score < 2) return { text: 'Débil', color: 'bg-red-500', width: 'w-1/3' };
-    if (score < 4) return { text: 'Aceptable', color: 'bg-yellow-500', width: 'w-2/3' };
-    return { text: 'Segura', color: 'bg-green-500', width: 'w-full' };
+    if (score < 2) return { text: 'Débil', color: 'bg-danger', width: '33%' };
+    if (score < 4) return { text: 'Aceptable', color: 'bg-warning', width: '66%' };
+    return { text: 'Segura', color: 'bg-success', width: '100%' };
 };
 
 
@@ -27,7 +26,7 @@ export const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, onNavigat
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState({ text: '', color: '', width: 'w-0' });
+  const [passwordStrength, setPasswordStrength] = useState({ text: '', color: 'bg-danger', width: '0%' });
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
@@ -35,7 +34,7 @@ export const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, onNavigat
     if (newPassword) {
         setPasswordStrength(checkPasswordStrength(newPassword));
     } else {
-        setPasswordStrength({ text: '', color: '', width: 'w-0' });
+        setPasswordStrength({ text: '', color: 'bg-danger', width: '0%' });
     }
   }
 
@@ -58,7 +57,6 @@ export const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, onNavigat
     
     setIsLoading(true);
 
-    // Simulación de llamada a una API real para registrar un nuevo usuario
     setTimeout(() => {
         console.log(`Registrando usuario: ${name}, ${email}`);
         onRegisterSuccess(name, email);
@@ -67,21 +65,21 @@ export const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, onNavigat
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100 p-4">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-xl">
-        <div className="text-center">
-            <i className="fas fa-user-plus text-5xl text-indigo-700"></i>
-            <h1 className="mt-4 text-3xl font-bold text-indigo-900">Crear una Cuenta</h1>
-            <p className="text-slate-600">Complete el formulario para acceder al portal.</p>
+    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light p-4">
+      <div className="w-100 p-4 bg-white rounded-4 shadow-lg" style={{maxWidth: '448px'}}>
+        <div className="text-center mb-4">
+            <i className="fas fa-user-plus display-4 text-primary"></i>
+            <h1 className="mt-3 h2 fw-bold text-primary-emphasis">Crear una Cuenta</h1>
+            <p className="text-muted">Complete el formulario para acceder al portal.</p>
         </div>
         
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="d-flex flex-column gap-3" onSubmit={handleSubmit}>
           <div>
-            <div className="flex items-center justify-between mb-1">
-                <label htmlFor="name" className="block text-lg font-medium text-slate-700">
+            <div className="d-flex align-items-center justify-content-between mb-1">
+                <label htmlFor="name" className="form-label fs-5 fw-medium text-body-secondary">
                 Nombre Completo
                 </label>
-                <button type="button" onClick={() => speak("Por favor, escriba su nombre y apellidos en este campo.")} className="text-indigo-600 hover:text-indigo-800" aria-label="Escuchar explicación sobre el nombre completo">
+                <button type="button" onClick={() => speak("Por favor, escriba su nombre y apellidos en este campo.")} className="btn btn-link text-primary p-0" aria-label="Escuchar explicación sobre el nombre completo">
                     <i className="fas fa-volume-up"></i>
                 </button>
             </div>
@@ -91,17 +89,17 @@ export const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, onNavigat
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="block w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="form-control form-control-lg"
               placeholder="Su nombre y apellidos"
             />
           </div>
 
           <div>
-             <div className="flex items-center justify-between mb-1">
-                <label htmlFor="email-register" className="block text-lg font-medium text-slate-700">
+             <div className="d-flex align-items-center justify-content-between mb-1">
+                <label htmlFor="email-register" className="form-label fs-5 fw-medium text-body-secondary">
                 Correo Electrónico
                 </label>
-                <button type="button" onClick={() => speak("Escriba aquí su dirección de correo electrónico. Será su nombre de usuario para entrar a la plataforma.")} className="text-indigo-600 hover:text-indigo-800" aria-label="Escuchar explicación sobre el correo electrónico">
+                <button type="button" onClick={() => speak("Escriba aquí su dirección de correo electrónico. Será su nombre de usuario para entrar a la plataforma.")} className="btn btn-link text-primary p-0" aria-label="Escuchar explicación sobre el correo electrónico">
                     <i className="fas fa-volume-up"></i>
                 </button>
             </div>
@@ -111,17 +109,17 @@ export const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, onNavigat
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="block w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="form-control form-control-lg"
               placeholder="ejemplo@correo.com"
             />
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1">
-                <label htmlFor="password-register" className="block text-lg font-medium text-slate-700">
+            <div className="d-flex align-items-center justify-content-between mb-1">
+                <label htmlFor="password-register" className="form-label fs-5 fw-medium text-body-secondary">
                 Contraseña
                 </label>
-                <button type="button" onClick={() => speak("Vamos a crear una contraseña segura. Piense en ella como una llave secreta muy difícil de adivinar. Para que sea fuerte, debe tener al menos 8 caracteres y mezclar letras mayúsculas, minúsculas, números y símbolos, como el arroba o el signo de exclamación. Evite usar su nombre o fechas importantes. Por ejemplo, una contraseña como 'MiPerroLucas_2024!' es mucho más segura que 'lucas123'.")} className="text-indigo-600 hover:text-indigo-800" aria-label="Escuchar explicación sobre cómo crear una contraseña segura">
+                <button type="button" onClick={() => speak("Vamos a crear una contraseña segura. Piense en ella como una llave secreta muy difícil de adivinar. Para que sea fuerte, debe tener al menos 8 caracteres y mezclar letras mayúsculas, minúsculas, números y símbolos, como el arroba o el signo de exclamación. Evite usar su nombre o fechas importantes. Por ejemplo, una contraseña como 'MiPerroLucas_2024!' es mucho más segura que 'lucas123'.")} className="btn btn-link text-primary p-0" aria-label="Escuchar explicación sobre cómo crear una contraseña segura">
                     <i className="fas fa-volume-up"></i>
                 </button>
             </div>
@@ -131,37 +129,42 @@ export const Register: React.FC<RegisterProps> = ({ onRegisterSuccess, onNavigat
               value={password}
               onChange={handlePasswordChange}
               required
-              className="block w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="form-control form-control-lg"
               placeholder="Mínimo 8 caracteres"
             />
             {password && (
                 <div className="mt-2">
-                    <div className="w-full bg-slate-200 rounded-full h-2.5">
-                        <div className={`h-2.5 rounded-full transition-all duration-300 ${passwordStrength.color} ${passwordStrength.width}`}></div>
+                    <div className="progress" style={{height: '8px'}}>
+                        <div className={`progress-bar ${passwordStrength.color}`} role="progressbar" style={{ width: passwordStrength.width, transition: 'width 0.3s ease' }} aria-valuenow={parseInt(passwordStrength.width)} aria-valuemin={0} aria-valuemax={100}></div>
                     </div>
-                    <p className="text-sm text-right font-semibold mt-1" style={{ color: passwordStrength.color.replace('bg-', '').replace('-500', '') }}>
+                    <p className={`text-end small fw-semibold mt-1 text-${passwordStrength.color.replace('bg-','')}`}>
                         {passwordStrength.text}
                     </p>
                 </div>
             )}
           </div>
 
-          {error && <p className="text-red-600 text-center font-semibold">{error}</p>}
+          {error && <p className="text-danger text-center fw-semibold">{error}</p>}
           
           <div className="pt-2">
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-sm text-lg font-bold text-white bg-indigo-700 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
+              className="btn btn-primary w-100 py-3 fs-5 fw-bold"
             >
-              {isLoading ? 'Creando cuenta...' : 'Registrarse'}
+             {isLoading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span className="ms-2">Creando cuenta...</span>
+                  </>
+              ) : 'Registrarse'}
             </button>
           </div>
         </form>
         
-        <p className="text-center text-slate-600">
+        <p className="text-center text-muted pt-3">
           ¿Ya tiene una cuenta?{' '}
-          <button onClick={onNavigateToLogin} className="font-bold text-indigo-700 hover:underline">
+          <button onClick={onNavigateToLogin} className="fw-bold btn btn-link text-primary p-0 text-decoration-none">
             Inicie sesión aquí
           </button>
         </p>

@@ -22,7 +22,6 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onNavigateToLogi
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulación de llamada a API
     setTimeout(() => {
       setIsLoading(false);
       setIsSubmitted(true);
@@ -30,35 +29,35 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onNavigateToLogi
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100 p-4">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-xl">
+    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light p-4">
+      <div className="w-100 p-4 p-md-5 bg-white rounded-4 shadow-lg" style={{maxWidth: '448px'}}>
         <div className="text-center">
-          <i className="fas fa-key text-5xl text-indigo-700"></i>
-          <h1 className="mt-4 text-3xl font-bold text-indigo-900">Recuperar Contraseña</h1>
+          <i className="fas fa-key display-4 text-primary"></i>
+          <h1 className="mt-3 h2 fw-bold text-primary-emphasis">Recuperar Contraseña</h1>
         </div>
 
         {isSubmitted ? (
-          <div className="text-center space-y-4">
-            <p className="text-lg text-slate-700">
+          <div className="text-center d-flex flex-column gap-3 mt-4">
+            <p className="fs-5 text-body-secondary">
               Si existe una cuenta asociada a <strong>{email}</strong>, hemos enviado un correo con las instrucciones para restablecer su contraseña.
             </p>
-            <p className="text-slate-600">Por favor, revise su bandeja de entrada.</p>
-            <button onClick={onNavigateToLogin} className="font-bold text-indigo-700 hover:underline">
+            <p className="text-muted">Por favor, revise su bandeja de entrada.</p>
+            <button onClick={onNavigateToLogin} className="btn btn-link text-primary fw-bold text-decoration-none">
               &larr; Volver a Iniciar Sesión
             </button>
           </div>
         ) : (
           <>
-            <p className="text-slate-600 text-center">
+            <p className="text-muted text-center mt-3">
               Introduzca su correo electrónico y le enviaremos un enlace para recuperar su cuenta.
             </p>
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="d-flex flex-column gap-4 mt-4" onSubmit={handleSubmit}>
               <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label htmlFor="email-forgot" className="block text-lg font-medium text-slate-700">
+                <div className="d-flex align-items-center justify-content-between mb-1">
+                  <label htmlFor="email-forgot" className="form-label fs-5 fw-medium text-body-secondary">
                     Correo Electrónico
                   </label>
-                  <button type="button" onClick={() => speak("Escriba el correo electrónico con el que se registró para que podamos enviarle las instrucciones de recuperación.")} className="text-indigo-600 hover:text-indigo-800" aria-label="Escuchar explicación sobre el correo electrónico">
+                  <button type="button" onClick={() => speak("Escriba el correo electrónico con el que se registró para que podamos enviarle las instrucciones de recuperación.")} className="btn btn-link text-primary p-0" aria-label="Escuchar explicación sobre el correo electrónico">
                     <i className="fas fa-volume-up"></i>
                   </button>
                 </div>
@@ -68,7 +67,7 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onNavigateToLogi
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="block w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  className="form-control form-control-lg"
                   placeholder="ejemplo@correo.com"
                 />
               </div>
@@ -77,16 +76,21 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onNavigateToLogi
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-sm text-lg font-bold text-white bg-indigo-700 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
+                  className="btn btn-primary w-100 py-3 fs-5 fw-bold"
                 >
-                  {isLoading ? 'Enviando...' : 'Enviar Enlace de Recuperación'}
+                  {isLoading ? (
+                    <>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span className="ms-2">Enviando...</span>
+                    </>
+                  ) : 'Enviar Enlace de Recuperación'}
                 </button>
               </div>
             </form>
 
-            <p className="text-center text-slate-600">
+            <p className="text-center text-muted mt-4">
               ¿Recordó su contraseña?{' '}
-              <button onClick={onNavigateToLogin} className="font-bold text-indigo-700 hover:underline">
+              <button onClick={onNavigateToLogin} className="fw-bold btn btn-link text-primary p-0 text-decoration-none">
                 Iniciar Sesión
               </button>
             </p>

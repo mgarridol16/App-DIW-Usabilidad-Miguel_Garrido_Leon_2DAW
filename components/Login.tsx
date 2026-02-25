@@ -26,35 +26,28 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess, onNavigateToRegist
     setError('');
     setIsLoading(true);
 
-    // Simulación de llamada a una API real con un retardo
     setTimeout(() => {
-      // En una app real, aquí se validaría con el backend.
-      // Para la demo, cualquier credencial válida funciona.
-      // if (email === 'usuario@correo.com' && password === 'password123') {
-        onLoginSuccess();
-      // } else {
-      //   setError('El correo electrónico o la contraseña no son correctos.');
-      // }
+      onLoginSuccess();
       setIsLoading(false);
     }, 1500);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100 p-4">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-xl">
+    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light p-4">
+      <div className="w-100 p-4 space-y-4 bg-white rounded-4 shadow-lg" style={{maxWidth: '448px'}}>
         <div className="text-center">
-            <i className="fas fa-book-open text-5xl text-indigo-700"></i>
-            <h1 className="mt-4 text-3xl font-bold text-indigo-900">Portal de Capacitación</h1>
-            <p className="text-slate-600">Inicie sesión para acceder a los módulos.</p>
+            <i className="fas fa-book-open display-4 text-primary"></i>
+            <h1 className="mt-3 h2 fw-bold text-primary-emphasis">Portal de Capacitación</h1>
+            <p className="text-muted">Inicie sesión para acceder a los módulos.</p>
         </div>
         
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="d-flex flex-column gap-3" onSubmit={handleSubmit}>
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label htmlFor="email" className="block text-lg font-medium text-slate-700">
+            <div className="d-flex align-items-center justify-content-between mb-1">
+              <label htmlFor="email" className="form-label fs-5 fw-medium text-body-secondary">
                 Correo Electrónico
               </label>
-              <button type="button" onClick={() => speak("Este es el campo para su correo electrónico. Es su dirección única en internet, como 'nombre@gmail.com'. Se utiliza para identificarle en los servicios online.")} className="text-indigo-600 hover:text-indigo-800" aria-label="Escuchar explicación sobre el correo electrónico">
+              <button type="button" onClick={() => speak("Este es el campo para su correo electrónico. Es su dirección única en internet, como 'nombre@gmail.com'. Se utiliza para identificarle en los servicios online.")} className="btn btn-link text-primary p-0" aria-label="Escuchar explicación sobre el correo electrónico">
                 <i className="fas fa-volume-up"></i>
               </button>
             </div>
@@ -64,17 +57,17 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess, onNavigateToRegist
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="block w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="form-control form-control-lg"
               placeholder="usuario@correo.com"
             />
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label htmlFor="password" className="block text-lg font-medium text-slate-700">
+            <div className="d-flex align-items-center justify-content-between mb-1">
+              <label htmlFor="password" className="form-label fs-5 fw-medium text-body-secondary">
                 Contraseña
               </label>
-              <button type="button" onClick={() => speak("Introduzca su clave secreta para acceder. Recuerde no compartirla con nadie.")} className="text-indigo-600 hover:text-indigo-800" aria-label="Escuchar explicación sobre la contraseña">
+              <button type="button" onClick={() => speak("Introduzca su clave secreta para acceder. Recuerde no compartirla con nadie.")} className="btn btn-link text-primary p-0" aria-label="Escuchar explicación sobre la contraseña">
                  <i className="fas fa-volume-up"></i>
               </button>
             </div>
@@ -84,33 +77,38 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess, onNavigateToRegist
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="block w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="form-control form-control-lg"
               placeholder="••••••••"
             />
           </div>
           
-          <div className="text-right">
-            <button type="button" onClick={onNavigateToForgotPassword} className="text-sm font-medium text-indigo-700 hover:underline">
+          <div className="text-end">
+            <button type="button" onClick={onNavigateToForgotPassword} className="btn btn-link text-primary text-decoration-none small">
               He olvidado mi contraseña
             </button>
           </div>
 
-          {error && <p className="text-red-600 text-center font-semibold">{error}</p>}
+          {error && <p className="text-danger text-center fw-semibold">{error}</p>}
           
-          <div>
+          <div className="pt-2">
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-sm text-lg font-bold text-white bg-indigo-700 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
+              className="btn btn-primary w-100 py-3 fs-5 fw-bold"
             >
-              {isLoading ? 'Verificando...' : 'Iniciar Sesión'}
+              {isLoading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span className="ms-2">Verificando...</span>
+                  </>
+              ) : 'Iniciar Sesión'}
             </button>
           </div>
         </form>
         
-        <p className="text-center text-slate-600">
+        <p className="text-center text-muted pt-3">
           ¿No tiene una cuenta?{' '}
-          <button onClick={onNavigateToRegister} className="font-bold text-indigo-700 hover:underline">
+          <button onClick={onNavigateToRegister} className="fw-bold btn btn-link text-primary p-0 text-decoration-none">
             Regístrese aquí
           </button>
         </p>

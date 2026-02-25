@@ -29,24 +29,24 @@ export const LessonCompletion: React.FC<LessonCompletionProps> = ({ lesson, onGo
       };
       return <div key={i} className="confetti" style={style}></div>;
     });
-    return <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">{confettiPieces}</div>;
+    return <div className="position-absolute top-0 start-0 w-100 h-100 overflow-hidden z-0">{confettiPieces}</div>;
   };
 
   return (
-    <div className="relative text-center bg-white p-8 rounded-xl shadow-lg border border-slate-200 animate-fade-in flex flex-col items-center justify-center min-h-[500px]">
+    <div className="position-relative text-center bg-white p-5 rounded-4 shadow-lg border animate-fade-in d-flex flex-column align-items-center justify-content-center" style={{minHeight: '500px'}}>
       <Confetti />
-      <div className="relative z-10">
-        <div className="w-24 h-24 mx-auto mb-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-5xl">
+      <div className="position-relative z-1">
+        <div className="mx-auto mb-4 bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center display-1" style={{width: '96px', height: '96px'}}>
           <i className="fas fa-check"></i>
         </div>
-        <h1 className="text-4xl font-bold text-indigo-900">¡Lección Completada!</h1>
-        <h2 className="text-2xl font-semibold text-slate-700 mt-2">{lesson.title}</h2>
-        <p className="text-lg text-slate-600 mt-4 max-w-md mx-auto">
+        <h1 className="display-5 fw-bold text-primary-emphasis">¡Lección Completada!</h1>
+        <h2 className="h3 fw-semibold text-body-secondary mt-2">{lesson.title}</h2>
+        <p className="fs-5 text-muted mt-4 mx-auto" style={{maxWidth: '500px'}}>
           Ha dominado con éxito los conceptos de esta lección. ¡Siga así para convertirse en un experto digital!
         </p>
         <button 
           onClick={onGoBack}
-          className="mt-8 px-8 py-4 text-lg font-bold text-white bg-indigo-700 rounded-full transition-all duration-150 hover:bg-indigo-800 active:scale-95"
+          className="btn btn-primary btn-lg rounded-pill fw-bold mt-5 px-5 py-3"
         >
           Volver al Menú Principal
         </button>

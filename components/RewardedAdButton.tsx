@@ -9,16 +9,13 @@ interface RewardedAdButtonProps {
 
 export const RewardedAdButton: React.FC<RewardedAdButtonProps> = ({ onReward }) => {
   const handleRewardGranted = useCallback(() => {
-    // The ad SDK confirmed the user watched the ad.
-    // Now, we tell our backend to grant the reward.
     apiService.claimAdReward()
       .then(response => {
         console.log(`[App] Reward claimed successfully! New lives: ${response.newLives}`);
-        onReward(); // Update the UI state
+        onReward();
       })
       .catch(err => {
         console.error('[App] Failed to claim reward from backend.', err);
-        // Optionally, show an error to the user
       });
   }, [onReward]);
   
@@ -37,15 +34,15 @@ export const RewardedAdButton: React.FC<RewardedAdButtonProps> = ({ onReward }) 
         <button
             onClick={showAd}
             disabled={isDisabled}
-            className="w-full text-left p-4 bg-green-100 text-green-800 rounded-xl border-2 border-green-300 shadow-sm hover:bg-green-200 transition-colors flex items-center gap-4 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-100 text-start p-3 btn btn-light text-success-emphasis bg-success-subtle rounded-3 border-2 border-success-subtle shadow-sm d-flex align-items-center gap-3"
         >
-            <i className="fas fa-video text-2xl"></i>
+            <i className="fas fa-video fs-3"></i>
             <div>
-            <p className="font-bold text-lg">{buttonText}</p>
-            <p className="text-sm">Mira un anuncio corto para continuar practicando.</p>
+                <p className="fw-bold fs-5 mb-0">{buttonText}</p>
+                <p className="small mb-0">Mira un anuncio corto para continuar practicando.</p>
             </div>
         </button>
-        {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
+        {error && <p className="text-danger small mt-2">{error}</p>}
     </div>
   );
 };

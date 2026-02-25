@@ -11,51 +11,68 @@ interface HomeProps {
 
 export const Home: React.FC<HomeProps> = ({ lessons, user, onSelectLesson, onNavigateToDashboard }) => {
   return (
-    <div className="space-y-8">
-      <div className="p-6 bg-white rounded-xl shadow-sm border border-slate-200">
-        <h2 className="text-3xl md:text-4xl font-bold text-indigo-900 mb-2">Bienvenido de nuevo, {user.name.split(' ')[0]}</h2>
-        <p className="text-lg text-slate-600">
+    <div className="d-flex flex-column gap-5">
+      <div className="p-4 bg-white rounded-4 shadow-sm border">
+        <h2 className="display-6 fw-bold text-primary-emphasis mb-2">Bienvenido de nuevo, {user.name.split(' ')[0]}</h2>
+        <p className="fs-5 text-secondary">
           Seleccione un módulo para continuar su formación o revise su progreso.
         </p>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="row g-4">
         {/* Dashboard Card */}
-        <div className="lg:col-span-1">
+        <div className="col-lg-4">
            <button
             onClick={onNavigateToDashboard}
-            className="group w-full text-left p-6 bg-indigo-700 text-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 border border-indigo-800 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-400 active:scale-95 h-full flex flex-col justify-between"
+            className="w-100 text-start p-4 bg-primary text-white rounded-4 shadow-lg border-0 h-100 d-flex flex-column justify-content-between card-hover-effect"
           >
             <div>
-              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-600 text-white mb-4">
-                <i className="fas fa-chart-line text-3xl"></i>
+              <div className="d-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary-emphasis mb-4" style={{width: '64px', height: '64px'}}>
+                <i className="fas fa-chart-line fs-2"></i>
               </div>
-              <h3 className="text-2xl font-bold mb-2">Mi Progreso</h3>
-              <p className="opacity-80">Vea sus logros y próximas lecciones recomendadas.</p>
+              <h3 className="h2 fw-bold mb-2">Mi Progreso</h3>
+              <p className="opacity-75">Vea sus logros y próximas lecciones recomendadas.</p>
             </div>
             <div className="mt-4">
-                <p className="font-semibold">{user.progress.completedLessons.length} lecciones completadas</p>
+                <p className="fw-semibold">{user.progress.completedLessons.length} lecciones completadas</p>
             </div>
           </button>
         </div>
 
         {/* Lessons Grid */}
-        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {lessons.map((lesson) => (
-            <button
-                key={lesson.id}
-                onClick={() => onSelectLesson(lesson)}
-                className="group text-left p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 border border-slate-200 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-400 active:scale-95"
-            >
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-indigo-700 mb-4 transition-colors group-hover:bg-indigo-700 group-hover:text-white">
-                <i className={`${lesson.icon} text-3xl`}></i>
+        <div className="col-lg-8">
+            <div className="row g-4">
+                {lessons.map((lesson) => (
+                <div key={lesson.id} className="col-md-6">
+                    <button
+                        onClick={() => onSelectLesson(lesson)}
+                        className="w-100 text-start p-4 bg-white rounded-4 shadow-lg border-0 h-100 card-hover-effect"
+                    >
+                        <div className="d-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary-emphasis mb-4" style={{width: '64px', height: '64px'}}>
+                            <i className={`${lesson.icon} fs-2`}></i>
+                        </div>
+                        <h3 className="h4 fw-bold text-body-emphasis mb-2">{lesson.title}</h3>
+                        <p className="text-secondary">{lesson.description}</p>
+                    </button>
                 </div>
-                <h3 className="text-2xl font-bold text-slate-800 mb-2">{lesson.title}</h3>
-                <p className="text-slate-600">{lesson.description}</p>
-            </button>
-            ))}
+                ))}
+            </div>
         </div>
       </div>
     </div>
   );
 };
+
+// Simple CSS for hover effect, can be added to index.html style tag if needed.
+const cardHoverStyle = `
+  .card-hover-effect {
+    transition: all 0.3s ease;
+  }
+  .card-hover-effect:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+  }
+`;
+const styleSheet = document.createElement("style");
+styleSheet.innerText = cardHoverStyle;
+document.head.appendChild(styleSheet);

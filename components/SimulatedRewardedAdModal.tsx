@@ -27,7 +27,6 @@ export const SimulatedRewardedAdModal: React.FC<SimulatedRewardedAdModalProps> =
     };
 
     useEffect(() => {
-        // Start speaking the first tip
         speak(educationalTips[currentTipIndex]);
 
         const progressInterval = setInterval(() => {
@@ -38,7 +37,7 @@ export const SimulatedRewardedAdModal: React.FC<SimulatedRewardedAdModalProps> =
                 }
                 return prev + 1;
             });
-        }, 100); // 10 seconds total duration
+        }, 100);
 
         const tipInterval = setInterval(() => {
             setCurrentTipIndex(prev => {
@@ -46,7 +45,7 @@ export const SimulatedRewardedAdModal: React.FC<SimulatedRewardedAdModalProps> =
                 speak(educationalTips[nextIndex]);
                 return nextIndex;
             });
-        }, 5000); // Change tip every 5 seconds
+        }, 5000);
 
         return () => {
             clearInterval(progressInterval);
@@ -58,29 +57,29 @@ export const SimulatedRewardedAdModal: React.FC<SimulatedRewardedAdModalProps> =
     const isComplete = progress >= 100;
 
     return (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in">
-            <div className="bg-slate-900 text-white w-full max-w-2xl h-[400px] rounded-2xl shadow-2xl p-6 flex flex-col justify-between">
-                <div className="flex justify-between items-center">
-                    <h3 className="text-xl font-bold">Consejo tecnológico patrocinado</h3>
-                    <button onClick={onClose} className="text-2xl text-slate-400 hover:text-white">&times;</button>
+        <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 z-50 d-flex align-items-center justify-content-center p-4 animate-fade-in">
+            <div className="bg-dark text-white rounded-4 shadow-lg p-4 d-flex flex-column justify-content-between" style={{width: '100%', maxWidth: '672px', height: '400px'}}>
+                <div className="d-flex justify-content-between align-items-center">
+                    <h3 className="h5 fw-bold">Consejo tecnológico patrocinado</h3>
+                    <button onClick={onClose} className="btn-close btn-close-white"></button>
                 </div>
                 
-                <div className="flex-1 flex items-center justify-center text-center">
-                    <div className="p-4 bg-black/30 rounded-lg">
-                        <p className="text-2xl italic">"{educationalTips[currentTipIndex]}"</p>
+                <div className="flex-grow-1 d-flex align-items-center justify-content-center text-center">
+                    <div className="p-4 bg-black bg-opacity-25 rounded-3">
+                        <p className="fs-4 fst-italic">"{educationalTips[currentTipIndex]}"</p>
                     </div>
                 </div>
                 
-                <div className="space-y-3">
-                     <div className="w-full bg-slate-700 rounded-full h-2.5">
-                        <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
+                <div className="d-flex flex-column gap-3">
+                    <div className="progress" style={{height: '10px'}}>
+                        <div className="progress-bar bg-success" role="progressbar" style={{ width: `${progress}%` }} aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}></div>
                     </div>
-                    <div className="flex justify-between items-center">
-                        <p className="text-sm text-slate-400">Viendo consejo...</p>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <p className="small text-white-50 mb-0">Viendo consejo...</p>
                         <button 
                             onClick={onReward}
                             disabled={!isComplete}
-                            className="px-6 py-2 bg-green-600 text-white font-bold rounded-full disabled:bg-slate-500 disabled:cursor-not-allowed hover:bg-green-700"
+                            className="btn btn-success fw-bold rounded-pill px-4 py-2"
                         >
                             {isComplete ? '¡Recompensa Obtenida!' : 'Completando...'}
                         </button>

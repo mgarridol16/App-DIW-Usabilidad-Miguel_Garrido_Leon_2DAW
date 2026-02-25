@@ -17,15 +17,12 @@ export const StripeCheckoutButton: React.FC<StripeCheckoutButtonProps> = ({ prod
     setError(null);
 
     try {
-      // 1. Create a checkout session on the backend which returns a full URL.
       const { url } = await apiService.createCheckoutSession(productId);
       
       if (!url) {
         throw new Error('No se pudo crear la sesión de pago.');
       }
 
-      // 2. Open the Stripe Checkout page in a new tab.
-      // This is a robust method that avoids iframe navigation issues and is good UX.
       window.open(url, '_blank', 'noopener,noreferrer');
 
     } catch (err) {
@@ -44,9 +41,14 @@ export const StripeCheckoutButton: React.FC<StripeCheckoutButtonProps> = ({ prod
         disabled={isLoading}
         className={`${className} disabled:opacity-70 disabled:cursor-not-allowed`}
       >
-        {isLoading ? 'Procesando...' : children}
+        {isLoading ? (
+            <>
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span className="ms-2">Procesando...</span>
+            </>
+        ) : children}
       </button>
-      {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
+      {error && <p className="text-danger small mt-2">{error}</p>}
     </div>
   );
 };

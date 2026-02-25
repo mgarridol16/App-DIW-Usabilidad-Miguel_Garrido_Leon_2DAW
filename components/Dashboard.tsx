@@ -25,44 +25,52 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, lessons, achievement
   const unlockedAchievements = achievements.filter(ach => user.progress.achievements.includes(ach.id));
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      <header className="flex justify-between items-center">
+    <div className="d-flex flex-column gap-4 animate-fade-in">
+      <header className="d-flex justify-content-between align-items-center">
         <div>
-            <h1 className="text-4xl font-bold text-indigo-900">Mi Progreso</h1>
-            <p className="text-lg text-slate-600">Aquí puede ver sus logros y próximos pasos.</p>
+            <h1 className="display-5 fw-bold text-primary-emphasis">Mi Progreso</h1>
+            <p className="fs-5 text-secondary">Aquí puede ver sus logros y próximos pasos.</p>
         </div>
-        <button onClick={onGoBack} className="text-indigo-700 hover:underline font-semibold text-lg">
+        <button onClick={onGoBack} className="btn btn-link text-primary text-decoration-none fw-semibold">
           &larr; Volver a los módulos
         </button>
       </header>
       
       {/* Resumen General */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-        <div className="p-6 bg-white rounded-xl shadow-md border">
-          <p className="text-5xl font-bold text-green-600">{completed.length}</p>
-          <p className="text-slate-600 font-semibold mt-2">Módulos Completados</p>
+      <div className="row g-4 text-center">
+        <div className="col-md-4">
+            <div className="p-4 bg-white rounded-4 shadow-sm border h-100">
+            <p className="display-4 fw-bold text-success">{completed.length}</p>
+            <p className="text-muted fw-semibold mt-2 mb-0">Módulos Completados</p>
+            </div>
         </div>
-        <div className="p-6 bg-white rounded-xl shadow-md border">
-          <p className="text-5xl font-bold text-amber-600">{inProgress.length}</p>
-          <p className="text-slate-600 font-semibold mt-2">Módulos en Curso</p>
+        <div className="col-md-4">
+            <div className="p-4 bg-white rounded-4 shadow-sm border h-100">
+            <p className="display-4 fw-bold text-warning-emphasis">{inProgress.length}</p>
+            <p className="text-muted fw-semibold mt-2 mb-0">Módulos en Curso</p>
+            </div>
         </div>
-        <div className="p-6 bg-white rounded-xl shadow-md border">
-          <p className="text-5xl font-bold text-yellow-500">{unlockedAchievements.length}</p>
-          <p className="text-slate-600 font-semibold mt-2">Logros Desbloqueados</p>
+        <div className="col-md-4">
+            <div className="p-4 bg-white rounded-4 shadow-sm border h-100">
+            <p className="display-4 fw-bold text-warning">{unlockedAchievements.length}</p>
+            <p className="text-muted fw-semibold mt-2 mb-0">Logros Desbloqueados</p>
+            </div>
         </div>
       </div>
 
       {/* Logros Desbloqueados */}
       {unlockedAchievements.length > 0 && (
-        <div className="p-6 bg-white rounded-xl shadow-md border">
-            <h2 className="text-2xl font-bold text-indigo-900 mb-4">Logros Desbloqueados</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div className="p-4 bg-white rounded-4 shadow-sm border">
+            <h2 className="h4 fw-bold text-primary-emphasis mb-4">Logros Desbloqueados</h2>
+            <div className="row g-3">
                 {unlockedAchievements.map(ach => (
-                    <div key={ach.id} className="text-center p-4 bg-slate-50 rounded-lg" title={`${ach.title}: ${ach.description}`}>
-                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-yellow-400 text-white mx-auto mb-2 text-3xl">
-                           <i className={ach.icon}></i>
+                    <div key={ach.id} className="col-6 col-md-4 col-lg-2">
+                        <div className="text-center p-3 bg-light rounded-3" title={`${ach.title}: ${ach.description}`}>
+                            <div className="d-flex align-items-center justify-content-center rounded-circle bg-warning text-white mx-auto mb-2 fs-3" style={{width: '64px', height: '64px'}}>
+                               <i className={ach.icon}></i>
+                            </div>
+                            <p className="fw-semibold text-body-secondary small text-truncate">{ach.title}</p>
                         </div>
-                        <p className="font-semibold text-slate-700 text-sm truncate">{ach.title}</p>
                     </div>
                 ))}
             </div>
@@ -71,17 +79,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, lessons, achievement
 
       {/* Módulos en Curso */}
       {inProgress.length > 0 && (
-        <div className="p-6 bg-white rounded-xl shadow-md border">
-          <h2 className="text-2xl font-bold text-indigo-900 mb-4">Continuar Aprendiendo</h2>
-          <div className="space-y-4">
+        <div className="p-4 bg-white rounded-4 shadow-sm border">
+          <h2 className="h4 fw-bold text-primary-emphasis mb-4">Continuar Aprendiendo</h2>
+          <div className="d-flex flex-column gap-3">
             {inProgress.map(lesson => lesson && (
               <div key={lesson.id}>
-                <div className="flex justify-between items-center mb-1">
-                    <p className="font-semibold text-slate-700">{lesson.title}</p>
-                    <p className="font-bold text-indigo-700">{lesson.progress}%</p>
+                <div className="d-flex justify-content-between align-items-center mb-1">
+                    <p className="fw-semibold text-body-secondary mb-0">{lesson.title}</p>
+                    <p className="fw-bold text-primary mb-0">{lesson.progress}%</p>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-4">
-                    <div className="bg-indigo-600 h-4 rounded-full" style={{ width: `${lesson.progress}%` }}></div>
+                <div className="progress" style={{height: '1rem'}}>
+                    <div className="progress-bar" role="progressbar" style={{ width: `${lesson.progress}%` }} aria-valuenow={lesson.progress} aria-valuemin={0} aria-valuemax={100}></div>
                 </div>
               </div>
             ))}
@@ -91,17 +99,19 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, lessons, achievement
 
       {/* Módulos Recomendados */}
       {recommendations.length > 0 && (
-        <div className="p-6 bg-white rounded-xl shadow-md border">
-          <h2 className="text-2xl font-bold text-indigo-900 mb-4">Próximos Pasos Recomendados</h2>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="p-4 bg-white rounded-4 shadow-sm border">
+          <h2 className="h4 fw-bold text-primary-emphasis mb-4">Próximos Pasos Recomendados</h2>
+           <div className="row g-3">
                 {recommendations.map(lesson => (
-                    <div key={lesson.id} className="p-4 border rounded-lg flex items-center gap-4">
-                        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-indigo-100 text-indigo-700 flex-shrink-0">
-                            <i className={`${lesson.icon} text-2xl`}></i>
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-slate-800">{lesson.title}</h3>
-                            <p className="text-sm text-slate-600">{lesson.description}</p>
+                    <div key={lesson.id} className="col-md-6">
+                        <div className="p-3 border rounded-3 d-flex align-items-center gap-3 h-100">
+                            <div className="d-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary flex-shrink-0" style={{width: '48px', height: '48px'}}>
+                                <i className={`${lesson.icon} fs-5`}></i>
+                            </div>
+                            <div>
+                                <h3 className="fw-bold h6 text-body-emphasis mb-1">{lesson.title}</h3>
+                                <p className="small text-muted mb-0">{lesson.description}</p>
+                            </div>
                         </div>
                     </div>
                 ))}

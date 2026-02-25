@@ -150,7 +150,7 @@ const App: React.FC = () => {
 
   const renderContent = () => {
     if (isLoading && view !== 'login' && view !== 'register' && view !== 'forgotPassword') {
-        return <div className="min-h-screen flex items-center justify-center"><p className="text-xl">Cargando...</p></div>
+        return <div className="min-vh-100 d-flex align-items-center justify-content-center"><p className="fs-4">Cargando...</p></div>
     }
 
     if (!currentUser) {
@@ -165,9 +165,9 @@ const App: React.FC = () => {
     }
     
     return (
-     <div className="min-h-screen bg-slate-100 text-slate-800 font-sans">
+     <div className="min-vh-100 bg-light text-dark">
        <Header user={currentUser} onGoHome={handleGoHome} onLogout={handleLogout} />
-       <main className="p-4 md:p-8 max-w-5xl mx-auto">
+       <main className="container-lg p-4 p-md-5">
           {view === 'app' && !selectedLesson && (
              <Home lessons={lessons} user={currentUser} onSelectLesson={handleSelectLesson} onNavigateToDashboard={handleGoToDashboard} />
           )}
@@ -186,11 +186,11 @@ const App: React.FC = () => {
              />
           )}
           {isLoading && !lessonState && selectedLesson && (
-            <div className="text-center p-8"><p className="text-xl">Cargando lección...</p></div>
+            <div className="text-center p-5"><p className="fs-4">Cargando lección...</p></div>
           )}
        </main>
        <AIAssistant />
-       <footer className="text-center p-4 text-slate-500 text-sm mt-8">
+       <footer className="text-center p-4 text-muted small mt-5">
          <p>&copy; 2024 Portal de Capacitación Digital. Todos los derechos reservados.</p>
        </footer>
      </div>

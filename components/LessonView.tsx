@@ -81,15 +81,12 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, initialState, on
       const newStepIndex = currentStepIndex + 1;
       onStepComplete(lesson.id, newStepIndex);
     } else {
-      // Final step should be handled by onStepComplete in App.tsx
-      // which would call an API to mark lesson as complete
       onStepComplete(lesson.id, lesson.steps.length);
       setIsCompleted(true);
     }
   };
   
   const handleTaskComplete = () => {
-      // In a real app, simulator tasks might also be validated by the backend
       setAnswerStatus('correct');
       speak("¡Muy bien! Tarea completada.");
   }
@@ -101,51 +98,52 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, initialState, on
 
   const renderInstructionalStep = (step: Step) => (
      <>
-        <div className="flex justify-between items-start">
-            <h3 className="text-2xl font-semibold text-slate-700 flex-1">{step.title}</h3>
+        <div className="d-flex justify-content-between align-items-start">
+            <h3 className="h4 fw-semibold text-body-secondary flex-grow-1">{step.title}</h3>
             <button 
                 onClick={() => speak(step.content || '')}
-                className="flex-shrink-0 ml-4 w-12 h-12 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors active:scale-90"
+                className="btn btn-light rounded-circle d-flex align-items-center justify-content-center ms-3"
+                style={{ width: '50px', height: '50px' }}
                 aria-label="Leer instrucción en voz alta"
             >
-                <i className="fas fa-volume-up text-2xl"></i>
+                <i className="fas fa-volume-up fs-4 text-primary"></i>
             </button>
         </div>
-        {step.video ? <video key={step.video} src={step.video} controls className="w-full rounded-lg shadow-md aspect-video bg-slate-800" /> : 
+        {step.video ? <video key={step.video} src={step.video} controls className="w-100 rounded-3 shadow-sm aspect-video bg-dark" /> : 
         (
-            <div className="w-full rounded-lg shadow-md aspect-video bg-slate-200 border flex items-center justify-center p-4">
+            <div className="w-100 rounded-3 shadow-sm aspect-video bg-light border d-flex align-items-center justify-content-center p-4">
             {step.image === 'logo-app' ? (
-                <div className="text-center text-slate-500">
-                    <i className="fas fa-book-open text-6xl text-indigo-300"></i>
-                    <p className="mt-2 font-semibold">Portal de Capacitación</p>
+                <div className="text-center text-muted">
+                    <i className="fas fa-book-open display-1 text-primary-subtle"></i>
+                    <p className="mt-2 fw-semibold">Portal de Capacitación</p>
                 </div>
             ) : (
-                <p className="text-slate-500 italic text-center">[{step.image?.replace('// Placeholder: ', '')}]</p>
+                <p className="text-muted fst-italic text-center">[{step.image?.replace('// Placeholder: ', '')}]</p>
             )}
             </div>
         )}
-        <p className="text-lg md:text-xl leading-relaxed text-slate-600">{step.content}</p>
+        <p className="fs-5 lh-base text-secondary">{step.content}</p>
      </>
   );
   
   const renderMultipleChoiceStep = (step: Step) => (
-    <div className="space-y-4">
-        <h3 className="text-2xl font-bold text-slate-800">{step.question}</h3>
-        <div className="space-y-3">
+    <div className="d-flex flex-column gap-4">
+        <h3 className="h4 fw-bold text-body-emphasis">{step.question}</h3>
+        <div className="d-flex flex-column gap-3">
             {step.options?.map((option: QuizOption) => {
                 const isSelected = selectedAnswer === option.id;
-                let buttonClass = 'border-slate-300 bg-white hover:bg-slate-100';
+                let btnClass = 'btn-outline-secondary';
                 if (answerStatus !== 'unanswered' && isSelected) {
-                    buttonClass = answerStatus === 'correct' ? 'border-green-500 bg-green-100' : 'border-red-500 bg-red-100';
+                    btnClass = answerStatus === 'correct' ? 'btn-success' : 'btn-danger';
                 } else if (isSelected) {
-                    buttonClass = 'border-indigo-500 bg-indigo-100 ring-2 ring-indigo-400';
+                    btnClass = 'btn-primary active';
                 }
                 
                 return (
                     <button key={option.id} onClick={() => handleSelectAnswer(option.id)}
-                        className={`w-full text-left p-4 text-lg rounded-xl border-2 transition-all duration-200 flex items-center gap-4 ${buttonClass}`}
+                        className={`btn ${btnClass} text-start p-3 fs-5 rounded-3 d-flex align-items-center gap-3`}
                         disabled={answerStatus !== 'unanswered' || isSubmitting}>
-                        <div className={`w-6 h-6 rounded-full border-2 flex-shrink-0 ${isSelected ? 'bg-indigo-600 border-indigo-600' : 'border-slate-400'}`}></div>
+                        <div className={`border rounded-circle d-flex flex-shrink-0 ${isSelected ? 'bg-primary border-primary' : 'border-secondary'}`} style={{width: '24px', height: '24px'}}></div>
                         <span>{option.text}</span>
                     </button>
                 )
@@ -170,10 +168,10 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, initialState, on
   
   if (!currentStep) {
     return (
-        <div className="text-center p-8 bg-white rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-red-600">Error en la lección</h2>
-            <p className="text-slate-600 mt-2">Ha ocurrido un problema al cargar este paso. Por favor, vuelva al inicio.</p>
-            <button onClick={onGoBack} className="mt-4 px-6 py-2 bg-indigo-700 text-white font-semibold rounded-full">Volver al Menú</button>
+        <div className="text-center p-5 bg-white rounded-4 shadow-lg">
+            <h2 className="h3 fw-bold text-danger">Error en la lección</h2>
+            <p className="text-muted mt-2">Ha ocurrido un problema al cargar este paso. Por favor, vuelva al inicio.</p>
+            <button onClick={onGoBack} className="btn btn-primary mt-4 px-4 py-2">Volver al Menú</button>
         </div>
     );
   }
@@ -187,38 +185,38 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, initialState, on
                 onSubscriptionSuccess={onSubscriptionSuccess}
             />
         }
-        <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-slate-200">
-            <header className="mb-6 pb-4 border-b border-slate-200">
-                 <div className="flex justify-between items-start">
-                    <h2 className="text-3xl md:text-4xl font-bold text-indigo-900 flex-1 pr-4">{lesson.title}</h2>
-                    <div className="flex items-center gap-2">
+        <div className="bg-white p-4 p-md-5 rounded-4 shadow-lg border">
+            <header className="mb-4 pb-4 border-bottom">
+                 <div className="d-flex justify-content-between align-items-start">
+                    <h2 className="h1 fw-bold text-primary-emphasis flex-grow-1 pe-4">{lesson.title}</h2>
+                    <div className="d-flex align-items-center gap-2">
                         {Array.from({ length: MAX_LIVES }).map((_, i) => (
-                            <i key={i} className={`fas fa-heart text-3xl transition-colors ${i < lives ? 'text-red-500' : 'text-slate-300'}`}></i>
+                            <i key={i} className={`fas fa-heart fs-2 ${i < lives ? 'text-danger' : 'text-light'}`}></i>
                         ))}
                     </div>
                  </div>
-                 <div className="w-full bg-slate-200 rounded-full h-2.5 mt-4">
-                    <div className="bg-green-600 h-2.5 rounded-full" style={{ width: `${(currentStepIndex / (lesson.steps.length - 1)) * 100}%` }}></div>
+                <div className="progress mt-4" style={{height: '10px'}}>
+                    <div className="progress-bar bg-success" role="progressbar" style={{ width: `${(currentStepIndex / (lesson.steps.length - 1)) * 100}%` }} aria-valuenow={(currentStepIndex / (lesson.steps.length - 1)) * 100} aria-valuemin={0} aria-valuemax={100}></div>
                 </div>
             </header>
             
-            <div className="space-y-6 min-h-[350px]">
+            <div className="d-flex flex-column gap-4" style={{minHeight: '350px'}}>
                 {currentStep.type === 'instructional' && renderInstructionalStep(currentStep)}
                 {currentStep.type === 'multipleChoice' && renderMultipleChoiceStep(currentStep)}
                 {currentStep.type === 'simulatorTask' && <PracticeSimulator key={`${lesson.id}-${currentStepIndex}`} step={currentStep} onTaskComplete={handleTaskComplete}/>}
             </div>
         </div>
         
-        <div className={`mt-1 rounded-b-xl transition-all duration-300
-            ${answerStatus === 'correct' ? 'bg-green-100 text-green-800 p-4' : ''}
-            ${answerStatus === 'incorrect' ? 'bg-red-100 text-red-800 p-4' : ''}
+        <div className={`mt-2 rounded-bottom-3 transition-all duration-300
+            ${answerStatus === 'correct' ? 'bg-success-subtle text-success-emphasis p-3' : ''}
+            ${answerStatus === 'incorrect' ? 'bg-danger-subtle text-danger-emphasis p-3' : ''}
         `}>
-            {answerStatus === 'correct' && <p className="font-bold text-lg">{currentStep.feedbackCorrect || '¡Buen trabajo!'}</p>}
-            {answerStatus === 'incorrect' && <p className="font-bold text-lg">{currentStep.feedbackIncorrect || '¡Ups! Inténtalo de nuevo.'}</p>}
+            {answerStatus === 'correct' && <p className="fw-bold fs-5 mb-0">{currentStep.feedbackCorrect || '¡Buen trabajo!'}</p>}
+            {answerStatus === 'incorrect' && <p className="fw-bold fs-5 mb-0">{currentStep.feedbackIncorrect || '¡Ups! Inténtalo de nuevo.'}</p>}
         </div>
 
-        <div className="mt-4 pt-4 flex justify-between items-center gap-4">
-             <button onClick={onGoBack} className="text-slate-600 hover:underline font-semibold">
+        <div className="mt-4 pt-4 d-flex justify-content-between align-items-center gap-4">
+             <button onClick={onGoBack} className="btn btn-link text-secondary fw-semibold">
                 Salir
             </button>
             <button 
@@ -228,10 +226,12 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, initialState, on
                     else handleCheckAnswer();
                 }}
                 disabled={isSubmitting || (currentStep.type === 'multipleChoice' && !selectedAnswer) || (currentStep.type === 'simulatorTask' && answerStatus !== 'correct')}
-                className={`px-8 py-4 text-lg font-bold text-white rounded-full transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
-                ${answerStatus === 'correct' ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-700 hover:bg-indigo-800'}
-                `}>
-                {getButtonText()} <i className="fas fa-chevron-right ml-2"></i>
+                className={`btn btn-lg rounded-pill fw-bold
+                ${answerStatus === 'correct' ? 'btn-success' : 'btn-primary'}
+                `}
+                style={{padding: '0.75rem 2rem'}}
+                >
+                {getButtonText()} <i className="fas fa-chevron-right ms-2 small"></i>
             </button>
         </div>
     </div>
