@@ -1,0 +1,570 @@
+/* ========================================================================
+   SKIN BASE - PROBLEMAS DE USABILIDAD Y RESPONSIVE
+   ======================================================================== */
+
+/*
+  OBJETIVO ACADÉMICO:
+  Esta skin demuestra violaciones de principios de usabilidad:
+  - Jerarquía visual deficiente
+  - Espaciado inconsistente e inadecuado
+  - Diseño NO responsive (elementos con tamaños fijos)
+  - Feedback visual pobre en interacciones
+  - Violación de la Ley de Fitts (objetivos pequeños)
+  - Sobrecarga cognitiva por falta de agrupación visual
+  - Inconsistencia en el diseño
+*/
+
+/* ====================
+   JERARQUÍA VISUAL POBRE
+   ==================== */
+
+/* PROBLEMA: Títulos casi del mismo tamaño que el texto (jerarquía CASI INEXISTENTE) */
+.skin-base .display-5,
+.skin-base .display-6,
+.skin-base h1 {
+  font-size: 1.3rem !important; /* Apenas más grande que texto normal */
+  font-weight: 400 !important; /* Peso normal, no bold */
+  color: #5a5a5a !important; /* Poco contraste con texto */
+}
+
+.skin-base h2 {
+  font-size: 1.2rem !important; /* Casi igual que h1 */
+  font-weight: 400 !important;
+  color: #606060 !important;
+}
+
+.skin-base h3,
+.skin-base .h4 {
+  font-size: 1.05rem !important; /* Prácticamente igual al cuerpo */
+  font-weight: 400 !important;
+  color: #666 !important;
+}
+
+/* PROBLEMA: Texto del cuerpo grande, similar a títulos */
+.skin-base p,
+.skin-base .fs-5 {
+  font-size: 1rem !important; /* Casi igual que títulos */
+}
+
+/* PROBLEMA: Estadísticas del dashboard sin destacar */
+.skin-base .display-4,
+.skin-base .display-3 {
+  font-size: 1.4rem !important; /* Números poco destacados */
+  font-weight: 400 !important;
+  color: #707070 !important;
+}
+
+/* ====================
+   ESPACIADO INCONSISTENTE
+   ==================== */
+
+/* PROBLEMA: Espaciados inconsistentes - unas áreas apretadas, otras con mucho vacío */
+.skin-base .p-4,
+.skin-base .p-5 {
+  padding: 0.5rem !important; /* Muy apretado */
+}
+
+.skin-base .gap-3,
+.skin-base .gap-4,
+.skin-base .gap-5 {
+  gap: 0.3rem !important; /* Cards muy juntas */
+}
+
+.skin-base .mb-2,
+.skin-base .mb-3,
+.skin-base .mb-4 {
+  margin-bottom: 0.2rem !important; /* Sin respiración */
+}
+
+/* PROBLEMA: Contenedores apretados */
+.skin-base .container-lg,
+.skin-base main {
+  padding: 0.5rem !important;
+}
+
+/* PROBLEMA: Cards muy juntas (mala organización espacial) */
+.skin-base .card {
+  margin: 0.2rem !important;
+  padding: 0.5rem !important;
+}
+
+/* ====================
+   BOTONES Y LEY DE FITTS
+   ==================== */
+
+/* PROBLEMA: Botones MUY pequeños (Ley de Fitts totalmente violada) */
+.skin-base .btn {
+  padding: 0.25rem 0.5rem !important; /* Muy pequeño */
+  font-size: 0.8rem !important;
+  min-height: 28px !important; /* Mucho menor que 44px */
+  margin: 0.1rem !important; /* Botones de acción demasiado juntos */
+}
+
+.skin-base .btn-lg {
+  padding: 0.3rem 0.6rem !important; /* "Large" pero sigue pequeño */
+  font-size: 0.85rem !important;
+  min-height: 32px !important;
+}
+
+/* PROBLEMA: Mucho espacio vacío alrededor de botones importantes */
+.skin-base .btn-primary {
+  margin: 2rem !important; /* Espacio excesivo, dificulta alcanzarlo */
+}
+
+/* PROBLEMA: Feedback visual CASI inexistente */
+.skin-base .btn:hover {
+  opacity: 0.98 !important; /* Cambio imperceptible */
+  transform: none !important;
+}
+
+.skin-base .btn:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.skin-base .btn:active {
+  transform: none !important; /* Sin feedback al hacer clic */
+}
+
+/* ====================
+   CONTRASTE Y COLOR
+   ==================== */
+
+/* PROBLEMA: Colores poco diferenciados del principal */
+.skin-base .text-primary {
+  color: #5a9e7e !important; /* Verde apagado, poco destacado */
+}
+
+.skin-base .text-secondary,
+.skin-base .text-muted {
+  color: #7a9c8e !important; /* Verde grisáceo suave */
+}
+
+.skin-base .bg-primary {
+  background-color: #a8c5b8 !important; /* Verde claro apagado */
+}
+
+.skin-base .bg-white {
+  background-color: #f8f9fa !important;
+}
+
+/* PROBLEMA: Círculo de selección casi invisible */
+.skin-base .lesson-answer-option .rounded-circle.bg-primary {
+  background-color: #fafbfa !important; /* Casi blanco - no se ve */
+}
+
+.skin-base .lesson-answer-option .rounded-circle.border-primary {
+  border-color: #f5f5f5 !important; /* Borde casi blanco */
+}
+
+/* ====================
+   DISEÑO NO RESPONSIVE
+   ==================== */
+
+/* PROBLEMA: Responsive DEFICIENTE (MUY IMPORTANTE) */
+@media (max-width: 991.98px) {
+  .skin-base .container-lg,
+  .skin-base main {
+    width: 980px !important;
+    min-width: 980px !important; /* Scroll horizontal inevitable */
+  }
+
+  .skin-base .row {
+    flex-wrap: nowrap !important; /* Columnas no bajan */
+  }
+
+  .skin-base .card,
+  .skin-base .rounded-4 {
+    width: 600px !important; /* Ancho fijo, no adaptativo */
+    max-width: 600px !important;
+  }
+
+  .skin-base .col-md-6,
+  .skin-base .col-lg-4,
+  .skin-base .col-lg-8 {
+    width: 600px !important;
+    max-width: 600px !important;
+  }
+
+  /* PROBLEMA: Imágenes con tamaños fijos */
+  .skin-base img {
+    width: 500px !important;
+    max-width: 500px !important;
+  }
+
+  /* PROBLEMA: Texto demasiado pequeño en móvil */
+  .skin-base body,
+  .skin-base p {
+    font-size: 0.75rem !important; /* Difícil de leer */
+  }
+
+  .skin-base h1 {
+    font-size: 1.1rem !important;
+  }
+
+  /* PROBLEMA: Menú que ocupa demasiado espacio */
+  .skin-base header {
+    padding: 1.5rem !important;
+    min-height: 80px !important; /* Ocupa mucho viewport */
+  }
+
+  /* PROBLEMA: Botones todavía más pequeños en móvil */
+  .skin-base .btn {
+    padding: 0.2rem 0.4rem !important;
+    font-size: 0.7rem !important;
+    min-height: 24px !important; /* Imposible de tocar bien */
+  }
+}
+
+/* ====================
+   TARJETAS Y CONTENEDORES
+   ==================== */
+
+/* PROBLEMA: Sombras excesivas y bordes inconsistentes */
+.skin-base .shadow-sm,
+.skin-base .shadow-lg {
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1) !important; /* Sombra casi invisible */
+}
+
+.skin-base .rounded-4,
+.skin-base .rounded-3 {
+  border-radius: 2px !important; /* Bordes muy sutiles */
+}
+
+/* PROBLEMA: Bordes con colores confusos */
+.skin-base .border {
+  border: 2px dashed #e0e0e0 !important;
+}
+
+/* ====================
+   ICONOS Y ELEMENTOS VISUALES
+   ==================== */
+
+/* PROBLEMA: Elementos visuales pequeños */
+.skin-base .fa,
+.skin-base .fas,
+.skin-base .fab {
+  font-size: 0.95rem !important;
+}
+
+.skin-base .fs-2,
+.skin-base .fs-3 {
+  font-size: 1.25rem !important;
+}
+
+/* ====================
+   HEADER Y NAVEGACIÓN
+   ==================== */
+
+/* PROBLEMA: Header sin diferenciación clara */
+.skin-base header {
+  padding: 0.3rem !important;
+  box-shadow: none !important;
+}
+
+.skin-base header h1,
+.skin-base header .h2 {
+  font-size: 1rem !important;
+}
+
+/* ====================
+   FORMULARIOS Y INPUTS
+   ==================== */
+
+/* PROBLEMA: Formularios "apretados" y sin feedback */
+.skin-base .form-control {
+  padding: 0.2rem 0.3rem !important; /* Muy apretado */
+  font-size: 0.75rem !important;
+  border: 1px solid #e5e5e5 !important;
+  margin-bottom: 0.2rem !important; /* Sin espacio entre campos */
+}
+
+.skin-base .form-control:focus {
+  border-color: #e0e0e0 !important; /* Casi no cambia */
+  box-shadow: none !important;
+  background-color: inherit !important; /* Sin feedback visual */
+}
+
+.skin-base .form-label {
+  font-size: 0.7rem !important;
+  color: #b0b0b0 !important; /* Poco contraste */
+  margin-bottom: 0.05rem !important;
+  font-weight: 300 !important;
+}
+
+/* ====================
+   FEEDBACK POBRE O INEXISTENTE
+   ==================== */
+
+/* PROBLEMA: Mensajes de respuesta correcta/incorrecta poco claros */
+.skin-base .bg-success-subtle,
+.skin-base .bg-danger-subtle {
+  background-color: #f5f5f5 !important; /* Casi no se diferencia */
+  color: #888 !important; /* Poco contraste */
+  padding: 0.3rem !important;
+  font-size: 0.8rem !important;
+}
+
+.skin-base .text-success-emphasis,
+.skin-base .text-danger-emphasis {
+  color: #666 !important; /* Sin color distintivo */
+}
+
+/* PROBLEMA: Sin indicadores de carga */
+.skin-base .spinner-border,
+.skin-base .spinner-grow {
+  width: 0.8rem !important;
+  height: 0.8rem !important;
+  opacity: 0.3 !important; /* Apenas visible */
+}
+
+/* PROBLEMA: Opciones de respuesta - hover casi imperceptible */
+.skin-base .lesson-answer-option:hover {
+  background-color: #fafbfa !important; /* Casi blanco, no se nota */
+  border-color: #f5f5f5 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* PROBLEMA: Opción seleccionada - casi no se distingue de las demás */
+.skin-base .lesson-answer-option.active,
+.skin-base .lesson-answer-option.btn-primary,
+.skin-base .btn-primary.active {
+  background-color: #f4f5f4 !important; /* Gris verdoso muy claro, casi blanco */
+  color: #e8ebe8 !important; /* Texto casi invisible */
+  border-color: #f0f1f0 !important; /* Borde igual de sutil */
+}
+
+.skin-base .lesson-answer-option.active:hover,
+.skin-base .lesson-answer-option.btn-primary:hover,
+.skin-base .btn-primary.active:hover {
+  background-color: #f4f5f4 !important; /* Sin cambio */
+  color: #e8ebe8 !important; /* Sin cambio */
+  border-color: #f0f1f0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* ====================
+   DASHBOARD Y ESTADÍSTICAS
+   ==================== */
+
+/* Ya definido arriba en jerarquía */
+
+/* ====================
+   BARRAS DE PROGRESO
+   ==================== */
+
+/* PROBLEMA: Barras de progreso difíciles de ver */
+.skin-base .progress {
+  height: 4px !important;
+  background-color: #f0f0f0 !important;
+}
+
+.skin-base .progress-bar {
+  background-color: #c0c0c0 !important;
+}
+
+/* ====================
+   RESPONSIVE BREAKPOINTS (FALLO INTENCIONAL)
+   ==================== */
+
+/* PROBLEMA: Media queries inefectivas o ausentes */
+@media (max-width: 768px) {
+  .skin-base .container-lg,
+  .skin-base main {
+    padding: 0.2rem !important;
+    overflow-x: auto !important; /* Scroll horizontal, mal diseño */
+  }
+
+  /* NO se ajustan los tamaños fijos, manteniendo el problema */
+}
+
+/* ====================
+   DROPDOWN Y MENÚS
+   ==================== */
+
+/* PROBLEMA: Menús con items pequeños y difíciles de seleccionar */
+.skin-base .dropdown-menu {
+  font-size: 0.75rem !important;
+  padding: 0.2rem !important;
+}
+
+.skin-base .dropdown-item {
+  padding: 0.2rem 0.4rem !important;
+}
+
+/* ====================
+   BADGES Y ETIQUETAS
+   ==================== */
+
+/* PROBLEMA: Badges sin contraste */
+.skin-base .badge {
+  font-size: 0.65rem !important;
+  padding: 0.1rem 0.3rem !important;
+  background-color: #d0d0d0 !important;
+  color: #888 !important;
+}
+
+/* ====================
+   LOGROS Y ACHIEVEMENTS
+   ==================== */
+
+/* PROBLEMA: Iconos de logros pequeños y difíciles de distinguir */
+.skin-base [class*="rounded-circle"] {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* ====================
+   ANIMACIONES Y TRANSICIONES
+   ==================== */
+
+/* PROBLEMA: Sin transiciones, cambios bruscos */
+.skin-base * {
+  transition: none !important;
+}
+
+/* ====================
+   CONSISTENCIA
+   ==================== */
+
+/* PROBLEMA: Colores de fondo inconsistentes */
+.skin-base .bg-light {
+  background-color: #fafafa !important;
+}
+
+.skin-base .bg-slate-50 {
+  background-color: #f0f0f0 !important;
+}
+
+/* Diferentes tonalidades sin patrón claro */
+.skin-base .bg-primary-subtle {
+  background-color: #e8e8e8 !important;
+}
+/* ====================
+   LECCIONES - LEY DE FITTS
+   ==================== */
+
+/* PROBLEMA: Botón "Siguiente" en lecciones demasiado pequeño */
+.skin-base .lesson-view .btn-lg {
+  padding: 0.3rem 0.6rem !important;
+  font-size: 0.8rem !important;
+  min-height: 30px !important;
+}
+
+/* PROBLEMA: Opciones de respuesta pequeñas y sin espacio */
+.skin-base .lesson-answer-option {
+  padding: 0.4rem 0.6rem !important;
+  font-size: 0.85rem !important;
+  margin: 0.1rem !important; /* Muy juntas */
+  min-height: 32px !important;
+}
+
+/* PROBLEMA: Botón de login pequeño y alejado */
+.skin-base form .btn-primary {
+  margin-top: 3rem !important; /* Mucho espacio vacío */
+  padding: 0.3rem 0.5rem !important;
+  font-size: 0.75rem !important;
+}
+
+/* ====================
+   VIDAS Y PROGRESO
+   ==================== */
+
+/* PROBLEMA: Corazones de vidas pequeños, difícil de ver estado */
+.skin-base .fa-heart {
+  font-size: 1rem !important; /* Pequeño */
+}
+
+/* PROBLEMA: Barra de progreso apenas visible */
+.skin-base .lesson-view .progress {
+  height: 3px !important;
+  margin-top: 0.2rem !important;
+}
+
+/* ====================
+   TARJETAS DE LECCIONES
+   ==================== */
+
+/* PROBLEMA: Cards sin hover feedback */
+.skin-base .card:hover {
+  transform: none !important;
+  box-shadow: none !important; /* Sin sombra, sin feedback */
+}
+
+/* PROBLEMA: Título de lección no destaca */
+.skin-base .card .h4,
+.skin-base .card h3 {
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  color: #707070 !important;
+}
+
+/* ====================
+   CONSISTENCIA FALLIDA
+   ==================== */
+
+/* PROBLEMA: Algunos botones grandes, otros pequeños sin razón */
+.skin-base .btn-secondary {
+  padding: 0.6rem 1.2rem !important; /* Inconsistente con btn-primary */
+  font-size: 0.95rem !important;
+}
+
+/* PROBLEMA: Espaciados diferentes sin lógica */
+.skin-base .mt-4 {
+  margin-top: 0.2rem !important;
+}
+
+.skin-base .mt-5 {
+  margin-top: 3rem !important; /* Demasiado grande inconsistentemente */
+}
+
+/* PROBLEMA: Textos descriptivos ocultos - mala organización de información */
+.skin-base .bg-white.rounded-4 .fs-5.text-secondary {
+  display: none !important; /* Oculta el texto de bienvenida descriptivo */
+}
+
+.skin-base .card-hover-effect .opacity-75 {
+  display: none !important; /* Oculta textos descriptivos en tarjetas */
+}
+
+/* PROBLEMA: Sin feedback visual en hover - las tarjetas no se elevan */
+.skin-base .card-hover-effect:hover {
+  transform: none !important; /* Sin elevación */
+  box-shadow: none !important; /* Sin sombra, sin feedback */
+}
+
+/* ====================
+   ASISTENTE DE CHAT
+   ==================== */
+
+/* PROBLEMA: Botón flotante del asistente como texto en lugar de icono */
+.skin-base
+  .position-fixed.btn-primary.rounded-circle[aria-label="Abrir asistente de soporte"] {
+  border-radius: 0.5rem !important; /* Rectangular en lugar de circular */
+  width: auto !important;
+  height: auto !important;
+  padding: 0.5rem 1rem !important;
+}
+
+.skin-base
+  .position-fixed.btn-primary.rounded-circle[aria-label="Abrir asistente de soporte"]
+  i {
+  display: none !important; /* Oculta el icono */
+}
+
+.skin-base
+  .position-fixed.btn-primary.rounded-circle[aria-label="Abrir asistente de soporte"]::after {
+  content: "asistente" !important;
+  font-size: 0.9rem !important;
+}
+
+/* Deshabilitar color rojo en botón de salir - no aplica en skin base */
+.skin-base header .btn-danger,
+.skin-base .btn-danger {
+  background-color: #6c757d !important; /* Gris neutral */
+  border-color: #6c757d !important;
+}

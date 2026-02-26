@@ -1,0 +1,673 @@
+/* ========================================================================
+   SKIN ALTERNATIVA - PROBLEMAS DE ACCESIBILIDAD
+   ======================================================================== */
+
+/*
+  OBJETIVO ACADÉMICO:
+  Esta skin mantiene una usabilidad visual aceptable (jerarquía, espaciado, responsive)
+  pero presenta graves problemas de accesibilidad que excluyen a usuarios con:
+  - Discapacidad visual (contraste insuficiente)
+  - Problemas de visión (tamaños de fuente pequeños)
+  - Navegación por teclado (sin indicadores de foco)
+  - Daltonismo (dependencia del color)
+  - Sensibilidad al movimiento (animaciones sin control)
+
+  PRINCIPIOS VIOLADOS:
+  - Contraste insuficiente (WCAG)
+  - Falta de indicadores de foco
+  - Tamaños de objetivo demasiado pequeños
+  - Dependencia exclusiva del color
+  - Texto no legible por tamaño
+*/
+
+/* ====================
+   CONTRASTE INSUFICIENTE
+   ==================== */
+
+/* PROBLEMA: Texto con contraste inferior a 4.5:1 (WCAG 1.4.3) */
+.skin-alternative body {
+  color: #999999 !important; /* Gris sobre blanco, ratio ~2.8:1 - INSUFICIENTE */
+}
+
+.skin-alternative .text-primary,
+.skin-alternative .text-primary-emphasis {
+  color: #a8b8ff !important; /* Azul claro, contraste muy bajo */
+}
+
+.skin-alternative .text-secondary,
+.skin-alternative .text-muted {
+  color: #b8b8b8 !important; /* Gris muy claro */
+}
+
+.skin-alternative h1,
+.skin-alternative h2,
+.skin-alternative h3,
+.skin-alternative .h2,
+.skin-alternative .h4,
+.skin-alternative .fw-bold {
+  color: #a8a8a8 !important; /* Títulos grises muy claros, ratio ~2.5:1 */
+}
+
+/* PROBLEMA: Botones con bajo contraste (WCAG 1.4.3) */
+.skin-alternative .btn-primary {
+  background-color: #c8d8ff !important; /* Azul muy claro */
+  color: #ffffff !important; /* Blanco sobre azul claro - ratio ~2:1 */
+  border: 1px solid #e0e8ff !important;
+}
+
+.skin-alternative .btn-outline-primary {
+  border-color: #e0e0e0 !important;
+  color: #d0d0d0 !important; /* Casi invisible */
+}
+
+.skin-alternative .btn-secondary {
+  background-color: #e8e8e8 !important;
+  color: #ffffff !important; /* Ratio ~1.5:1 - muy malo */
+}
+
+/* PROBLEMA: Estados desactivados casi invisibles */
+.skin-alternative .btn:disabled,
+.skin-alternative .btn.disabled {
+  background-color: #f8f8f8 !important;
+  color: #e8e8e8 !important; /* Casi blanco sobre casi blanco */
+  opacity: 0.9 !important;
+}
+
+/* PROBLEMA: Enlaces poco visibles */
+.skin-alternative a,
+.skin-alternative .btn-link {
+  color: #7a7a7a !important; /* Gris, similar al texto normal */
+  text-decoration: none !important;
+}
+
+/* ====================
+   SIN INDICADORES DE FOCO
+   ==================== */
+
+/* PROBLEMA: Elimina todos los indicadores de foco (crítico para navegación por teclado) */
+.skin-alternative *:focus,
+.skin-alternative *:focus-visible,
+.skin-alternative button:focus,
+.skin-alternative a:focus,
+.skin-alternative input:focus,
+.skin-alternative select:focus,
+.skin-alternative textarea:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+}
+
+.skin-alternative .btn:focus {
+  box-shadow: none !important;
+}
+
+.skin-alternative .form-control:focus {
+  border-color: #e0e0e0 !important;
+  box-shadow: none !important;
+}
+
+/* ====================
+   TAMAÑO DE FUENTE INSUFICIENTE
+   ==================== */
+
+/* PROBLEMA: Tamaño de fuente pequeño para leer (WCAG 1.4.4) */
+.skin-alternative body,
+.skin-alternative p,
+.skin-alternative .fs-5,
+.skin-alternative .text-secondary,
+.skin-alternative li {
+  font-size: 0.85rem !important; /* 13.6px - INFERIOR a 16px recomendado */
+}
+
+.skin-alternative small,
+.skin-alternative .small {
+  font-size: 0.7rem !important; /* 11.2px - muy pequeño */
+}
+
+.skin-alternative .form-label {
+  font-size: 0.8rem !important; /* 12.8px */
+}
+
+.skin-alternative .btn {
+  font-size: 0.85rem !important; /* Botones con texto pequeño */
+}
+
+/* PROBLEMA: Descripciones e instrucciones casi ilegibles */
+.skin-alternative .opacity-75,
+.skin-alternative .text-muted {
+  font-size: 0.75rem !important; /* 12px */
+}
+
+/* ====================
+   DEPENDENCIA DEL COLOR
+   ==================== */
+
+/* PROBLEMA: Información transmitida SOLO mediante color (WCAG 1.4.1) */
+.skin-alternative .text-success,
+.skin-alternative .text-danger,
+.skin-alternative .text-warning {
+  /* Solo color, sin iconos o símbolos adicionales */
+  font-weight: normal !important;
+}
+
+/* PROBLEMA: Respuestas correctas/incorrectas solo por color */
+.skin-alternative .bg-success-subtle {
+  background-color: #d4edda !important; /* Verde claro */
+  color: #88c899 !important; /* Verde sobre verde claro - bajo contraste */
+}
+
+.skin-alternative .bg-danger-subtle {
+  background-color: #f8d7da !important; /* Rojo claro */
+  color: #e89ca3 !important; /* Rojo sobre rojo claro - bajo contraste */
+}
+
+/* PROBLEMA: Sin iconos ni texto que refuerce el estado */
+.skin-alternative .text-success-emphasis {
+  color: #88c899 !important; /* Verde bajo contraste */
+}
+
+.skin-alternative .text-danger-emphasis {
+  color: #e89ca3 !important; /* Rojo bajo contraste */
+}
+
+.skin-alternative .badge {
+  background-color: transparent !important;
+  color: #ffc266 !important; /* Amarillo/naranja sin contexto adicional */
+  border: none !important;
+}
+
+/* PROBLEMA: Estados de error sin texto alternativo */
+.skin-alternative .is-invalid {
+  border-color: #f8d7da !important; /* Rosa muy claro */
+}
+
+.skin-alternative .invalid-feedback {
+  color: #e89ca3 !important; /* Apenas visible, solo color sin icono */
+  font-size: 0.7rem !important;
+}
+
+/* ====================
+   BOTONES Y ÁREAS DE TOQUE
+   ==================== */
+
+/* PROBLEMA: Órdenes de toque pequeñas */
+.skin-alternative .btn-sm,
+.skin-alternative .btn {
+  padding: 0.4rem 0.8rem !important;
+  font-size: 0.9rem !important;
+  min-height: 36px !important; /* Menor que 44px recomendados */
+}
+
+/* PROBLEMA: Iconos clickeables muy pequeños */
+.skin-alternative .fa-volume-up,
+.skin-alternative [class*="fa-"] {
+  font-size: 0.7rem !important;
+}
+
+/* ====================
+   FORMULARIOS INACCESIBLES
+   ==================== */
+
+/* PROBLEMA: Labels poco visibles o confusos (WCAG 3.3.2) */
+.skin-alternative .form-label {
+  color: #c8c8c8 !important; /* Gris muy claro - ratio ~1.8:1 */
+  font-weight: 300 !important;
+  font-size: 0.8rem !important;
+}
+
+/* PROBLEMA: Placeholders como única indicación (mala práctica) */
+.skin-alternative input::placeholder,
+.skin-alternative textarea::placeholder {
+  color: #e0e0e0 !important; /* Gris casi invisible */
+  opacity: 1 !important;
+}
+
+.skin-alternative .form-control {
+  border: 1px solid #f0f0f0 !important; /* Borde casi invisible */
+  color: #a8a8a8 !important; /* Texto con bajo contraste */
+}
+
+/* PROBLEMA: Texto de ayuda casi invisible */
+.skin-alternative .form-text,
+.skin-alternative .text-muted.small {
+  color: #d8d8d8 !important; /* Casi invisible */
+  font-size: 0.7rem !important;
+}
+
+/* ====================
+   NAVEGACIÓN Y ESTRUCTURA
+   ==================== */
+
+/* PROBLEMA: Header sin suficiente contraste */
+.skin-alternative header {
+  background-color: #d8e4ff !important; /* Azul muy claro */
+  color: #f8f8f8 !important;
+}
+
+.skin-alternative header .text-white {
+  color: #f0f0f0 !important; /* Casi blanco sobre azul claro */
+}
+
+/* ====================
+   TARJETAS Y CONTENEDORES
+   ==================== */
+
+/* PROBLEMA: Bordes casi invisibles */
+.skin-alternative .border,
+.skin-alternative .rounded-4 {
+  border: 1px solid #f5f5f5 !important;
+}
+
+.skin-alternative .shadow-sm,
+.skin-alternative .shadow-lg {
+  box-shadow: 0 1px 2px rgba(200, 200, 200, 0.15) !important;
+}
+
+/* ====================
+   PROGRESO Y FEEDBACK VISUAL
+   ==================== */
+
+/* PROBLEMA: Barras de progreso sin contraste */
+.skin-alternative .progress {
+  background-color: #f8f8f8 !important;
+}
+
+.skin-alternative .progress-bar {
+  background-color: #d8d8ff !important; /* Azul muy claro */
+}
+
+/* ====================
+   DROPDOWN Y MENÚS
+   ==================== */
+
+/* PROBLEMA: Items de menú con poco contraste */
+.skin-alternative .dropdown-menu {
+  background-color: #fafafa !important;
+  border: 1px solid #f0f0f0 !important;
+}
+
+.skin-alternative .dropdown-item {
+  color: #c8c8c8 !important;
+}
+
+.skin-alternative .dropdown-item:hover,
+.skin-alternative .dropdown-item:focus {
+  background-color: #f5f5f5 !important;
+  outline: none !important;
+}
+
+/* ====================
+   ÍCONOS Y ELEMENTOS GRÁFICOS
+   ==================== */
+
+/* PROBLEMA: Íconos decorativos sin contraste suficiente */
+.skin-alternative .bg-primary-subtle {
+  background-color: #e8ecff !important;
+}
+
+.skin-alternative .text-primary-emphasis {
+  color: #c0ceff !important;
+}
+
+/* ====================
+   ANIMACIONES SIN CONTROL
+   ==================== */
+
+/* PROBLEMA: Animaciones lentas que no respetan prefers-reduced-motion */
+.skin-alternative .animate-fade-in,
+.skin-alternative .card-hover-effect {
+  animation-duration: 1s !important; /* Relativamente lenta */
+}
+
+.skin-alternative * {
+  transition: all 0.3s ease !important; /* Transiciones lentas */
+}
+
+/* NO se respeta prefers-reduced-motion */
+
+/* ====================
+   ESTADOS HOVER (mantener usabilidad básica)
+   ==================== */
+
+/* PROBLEMA: Hover con cambio mínimo, difícil de percibir */
+.skin-alternative .btn:hover {
+  opacity: 0.95 !important;
+  transform: none !important;
+}
+
+.skin-alternative .dropdown-item:hover {
+  background-color: #f8f8f8 !important;
+}
+
+/* ====================
+   DASHBOARD Y ESTADÍSTICAS
+   ==================== */
+
+/* PROBLEMA: Números y datos con bajo contraste */
+.skin-alternative .display-4 {
+  color: #b8b8b8 !important;
+}
+
+.skin-alternative .text-success {
+  color: #c8e6c9 !important; /* Verde muy claro */
+}
+
+.skin-alternative .text-warning-emphasis,
+.skin-alternative .text-warning {
+  color: #ffe0b2 !important; /* Amarillo muy claro */
+}
+
+/* ====================
+   LECCIONES Y RESPUESTAS
+   ==================== */
+
+/* PROBLEMA: Colores de leccion apagados y poco diferenciados */
+.skin-alternative .lesson-view .text-primary,
+.skin-alternative .lesson-view .text-primary-emphasis {
+  color: #8f8f8f !important;
+}
+
+.skin-alternative .lesson-view .text-success,
+.skin-alternative .lesson-view .text-danger {
+  color: #bdbdbd !important;
+}
+
+.skin-alternative .lesson-view .progress {
+  background-color: #f3f3f3 !important;
+}
+
+.skin-alternative .lesson-view .progress-bar {
+  background-color: #d6d6d6 !important;
+}
+
+.skin-alternative .lesson-view .btn-primary,
+.skin-alternative .lesson-view .btn-success,
+.skin-alternative .lesson-view .btn-danger {
+  background-color: #dcdcdc !important;
+  color: #8a8a8a !important;
+  border-color: #d0d0d0 !important;
+}
+
+/* PROBLEMA: Respuestas sin feedback de hover claro */
+.skin-alternative .lesson-answer-option:hover,
+.skin-alternative .lesson-answer-option:focus,
+.skin-alternative .lesson-answer-option:active {
+  background-color: inherit !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  border-color: #d0d0d0 !important;
+}
+
+/* ====================
+   LOGROS Y BADGES
+   ==================== */
+
+/* PROBLEMA: Badges con colores pastel sin texto alternativo claro */
+.skin-alternative .bg-warning {
+  background-color: #fff4e0 !important;
+  color: #ffe8b8 !important;
+}
+
+.skin-alternative .bg-success {
+  background-color: #e8f5e9 !important;
+  color: #c8e6c9 !important;
+}
+
+/* ====================
+   LINKS Y NAVEGACIÓN
+   ==================== */
+
+/* PROBLEMA: Enlaces sin subrayado ni diferenciación */
+.skin-alternative a:hover {
+  color: #d0d0d0 !important;
+  text-decoration: none !important;
+}
+
+.skin-alternative .btn-link:hover {
+  color: #c8c8c8 !important;
+}
+
+/* ====================
+   TABINDEX Y ORDEN DE TABULACIÓN
+   ==================== */
+
+/* PROBLEMA: Sin indicadores visuales del orden de navegación */
+/* (Este problema es más estructural HTML que CSS, pero afecta la experiencia) */
+
+/* ====================
+   IMÁGENES Y CONTENIDO MULTIMEDIA
+   ==================== */
+
+/* PROBLEMA: Imágenes con filtros que reducen contraste */
+.skin-alternative img {
+  opacity: 0.85 !important;
+  filter: brightness(1.1) contrast(0.85) !important;
+}
+
+/* ====================
+   MODALS Y OVERLAYS
+   ==================== */
+
+/* PROBLEMA: Overlays con poca opacidad */
+.skin-alternative .modal-backdrop {
+  background-color: rgba(240, 240, 240, 0.3) !important;
+}
+
+.skin-alternative .modal-content {
+  border: 1px solid #f0f0f0 !important;
+}
+
+/* ====================
+   NOTAS ADICIONALES
+   ==================== */
+
+/*
+  Esta skin mantiene:
+  ✓ Jerarquía visual (tamaños relativos correctos)
+  ✓ Espaciado adecuado
+  ✓ Responsive design funcional
+  ✓ Layout coherente
+
+  Pero FALLA en:
+  ✗ Contraste de color (WCAG 1.4.3)
+  ✗ Indicadores de foco (WCAG 2.4.7)
+  ✗ Tamaños de fuente legibles (WCAG 1.4.4)
+  ✗ Navegación por teclado
+  ✗ Dependencia del color (WCAG 1.4.1)
+  ✗ Etiquetas e instrucciones (WCAG 3.3.2)
+  ✗ Accesibilidad general
+*/
+
+/* ====================
+   SELECTOR DE SKINS Y DROPDOWN
+   ==================== */
+
+/* PROBLEMA: Selector de skins sin foco visible (WCAG 2.4.7) */
+.skin-alternative .dropdown-toggle:focus,
+.skin-alternative select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+}
+
+.skin-alternative .dropdown-menu {
+  background-color: #fafafa !important;
+  border: 1px solid #f5f5f5 !important;
+  color: #c8c8c8 !important;
+}
+
+.skin-alternative .dropdown-item {
+  color: #d0d0d0 !important; /* Muy bajo contraste */
+  font-size: 0.85rem !important;
+}
+
+/* ====================
+   LOGIN Y REGISTRO
+   ==================== */
+
+/* PROBLEMA: Formularios de login con labels casi invisibles */
+.skin-alternative .login-form .form-label,
+.skin-alternative .register-form .form-label {
+  color: #d8d8d8 !important; /* Casi invisible */
+  font-size: 0.8rem !important;
+}
+
+.skin-alternative .login-form input:focus,
+.skin-alternative .register-form input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #f0f0f0 !important; /* Sin feedback de foco */
+}
+
+/* ====================
+   LECCIONES - DEPENDENCIA DEL COLOR
+   ==================== */
+
+/* PROBLEMA: Respuesta correcta solo en verde (WCAG 1.4.1) */
+.skin-alternative .lesson-view .bg-success-subtle,
+.skin-alternative .lesson-view .alert-success {
+  background-color: #d4edda !important;
+  color: #88c899 !important;
+  border-color: #c3e6cb !important;
+  /* SIN icono ✓ ni texto "Correcto" adicional */
+}
+
+/* PROBLEMA: Respuesta incorrecta solo en rojo (WCAG 1.4.1) */
+.skin-alternative .lesson-view .bg-danger-subtle,
+.skin-alternative .lesson-view .alert-danger {
+  background-color: #f8d7da !important;
+  color: #e89ca3 !important;
+  border-color: #f5c6cb !important;
+  /* SIN icono ✗ ni texto "Incorrecto" adicional */
+}
+
+/* PROBLEMA: Opciones de respuesta sin hover claro */
+.skin-alternative .lesson-answer-option {
+  border: 1px solid #e8e8e8 !important;
+  color: #a8a8a8 !important;
+}
+
+.skin-alternative .lesson-answer-option:hover,
+.skin-alternative .lesson-answer-option:focus {
+  background-color: #fafafa !important; /* Cambio casi imperceptible */
+  border-color: #e8e8e8 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ====================
+   BOTONES Y ÁREAS DE TOQUE
+   ==================== */
+
+/* PROBLEMA: Botones pequeños (WCAG 2.5.5) */
+.skin-alternative .btn-sm,
+.skin-alternative .btn {
+  padding: 0.35rem 0.7rem !important;
+  font-size: 0.85rem !important;
+  min-height: 38px !important; /* Menor que 44px recomendado */
+}
+
+/* PROBLEMA: Iconos clickeables muy pequeños */
+.skin-alternative .btn i,
+.skin-alternative button i {
+  font-size: 0.75rem !important;
+}
+
+/* ====================
+   HEADER Y NAVEGACIÓN
+   ==================== */
+
+/* PROBLEMA: Header con bajo contraste */
+.skin-alternative header {
+  background-color: #e8f0ff !important; /* Azul muy claro */
+}
+
+.skin-alternative header .text-white,
+.skin-alternative header h1 {
+  color: #f8f8f8 !important; /* Casi blanco sobre azul claro */
+}
+
+/* PROBLEMA: Botón de logout sin contraste */
+.skin-alternative header .btn-outline-light {
+  border-color: #f0f0f0 !important;
+  color: #f5f5f5 !important;
+}
+
+/* ====================
+   DASHBOARD
+   ==================== */
+
+/* PROBLEMA: Estadísticas con bajo contraste */
+.skin-alternative .display-3,
+.skin-alternative .display-4 {
+  color: #c0c0c0 !important; /* Números casi invisibles */
+  font-weight: 300 !important;
+}
+
+/* PROBLEMA: Tarjetas de progreso sin diferenciación */
+.skin-alternative .card {
+  border: 1px solid #f5f5f5 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* ====================
+   VIDAS Y CORAZONES
+   ==================== */
+
+/* PROBLEMA: Estado de vidas solo por color */
+.skin-alternative .fa-heart {
+  /* Rojo lleno vs gris vacío - sin alternativa textual */
+  font-size: 1rem !important;
+}
+
+.skin-alternative .text-danger .fa-heart {
+  color: #e89ca3 !important; /* Rojo bajo contraste */
+}
+
+.skin-alternative .text-muted .fa-heart {
+  color: #d8d8d8 !important; /* Gris casi invisible */
+}
+
+/* ====================
+   PROGRESO DE LECCIÓN
+   ==================== */
+
+/* PROBLEMA: Barra de progreso sin contraste */
+.skin-alternative .progress {
+  background-color: #f8f8f8 !important;
+  height: 6px !important;
+}
+
+.skin-alternative .progress-bar {
+  background-color: #d8e0ff !important; /* Azul muy claro */
+}
+
+/* PROBLEMA: Porcentaje solo visual sin audio */
+.skin-alternative .progress + small {
+  color: #d0d0d0 !important;
+  font-size: 0.75rem !important;
+}
+
+/* ====================
+   ICONOS EN LAYOUT DE LECCIONES (HOME)
+   ==================== */
+
+/* PROBLEMA: Ocultar iconos en tarjetas de lecciones - información menos clara */
+.skin-alternative .card-hover-effect .rounded-circle i,
+.skin-alternative .card-hover-effect .fa-chart-line,
+.skin-alternative .card-hover-effect [class*="fa-"] {
+  display: none !important; /* Iconos ocultos en layout de lecciones */
+}
+
+/* PROBLEMA: Círculos de iconos quedan vacíos, confusos */
+.skin-alternative .card-hover-effect .rounded-circle {
+  background-color: #f5f5f5 !important; /* Círculo vacío gris */
+  border: 1px solid #e8e8e8 !important;
+}
+
+/* Deshabilitar color rojo en botón de salir - no aplica en skin alternative */
+.skin-alternative header .btn-danger,
+.skin-alternative .btn-danger {
+  background-color: #6c757d !important; /* Gris neutral */
+  border-color: #6c757d !important;
+}

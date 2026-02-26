@@ -1,7 +1,7 @@
-
 import { GoogleGenAI } from "@google/genai";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY =
+  import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY;
 
 if (!API_KEY) {
   // This is a fallback for development. In a real environment, the key should be set.
@@ -32,35 +32,38 @@ Tus reglas son:
 5.  Mantén las respuestas breves y al grano.
 `;
 
-const getApiResponse = async (prompt: string, systemInstruction: string): Promise<string> => {
-    if (!API_KEY) {
-        return "El servicio de asistencia no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.";
-    }
-    try {
-        const response = await ai.models.generateContent({
-            model: 'gemini-3-flash-preview',
-            contents: prompt,
-            config: {
-                systemInstruction: systemInstruction,
-                temperature: 0.2,
-            }
-        });
+const getApiResponse = async (
+  prompt: string,
+  systemInstruction: string,
+): Promise<string> => {
+  if (!API_KEY) {
+    return "El servicio de asistencia no está disponible en este momento. Por favor, inténtelo de nuevo más tarde.";
+  }
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: prompt,
+      config: {
+        systemInstruction: systemInstruction,
+        temperature: 0.2,
+      },
+    });
 
-        if (response && response.text) {
-            return response.text;
-        } else {
-            throw new Error('No text in response');
-        }
-    } catch (error) {
-        console.error("Error fetching AI response:", error);
-        return "Ha ocurrido un error de conexión con el asistente. Por favor, verifique su conexión e inténtelo de nuevo.";
+    if (response && response.text) {
+      return response.text;
+    } else {
+      throw new Error("No text in response");
     }
+  } catch (error) {
+    console.error("Error fetching AI response:", error);
+    return "Ha ocurrido un error de conexión con el asistente. Por favor, verifique su conexión e inténtelo de nuevo.";
+  }
 };
 
 export const getAIResponse = (prompt: string): Promise<string> => {
-    return getApiResponse(prompt, mainSystemInstruction);
+  return getApiResponse(prompt, mainSystemInstruction);
 };
 
 export const getAuthAIResponse = (prompt: string): Promise<string> => {
-    return getApiResponse(prompt, authSystemInstruction);
+  return getApiResponse(prompt, authSystemInstruction);
 };

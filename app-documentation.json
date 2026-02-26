@@ -1,0 +1,476 @@
+{
+  "projectName": "Portal de Capacitación Digital - App DIW Usabilidad",
+  "version": "1.0.0",
+  "author": "Miguel Garrido León - 2DAW",
+  "purpose": "Aplicación educativa para enseñar tecnología digital a personas mayores con poca experiencia tecnológica, con sistema de tres skins para estudiar usabilidad y accesibilidad web",
+
+  "technicalStack": {
+    "frontend": "React 19 + TypeScript",
+    "styling": "Bootstrap 5.3.3 + CSS puro",
+    "buildTool": "Vite",
+    "aiIntegration": "Google Gemini API",
+    "architecture": "SPA (Single Page Application)",
+    "stateManagement": "React Context API + useState",
+    "deployment": "Static hosting compatible"
+  },
+
+  "mainFeatures": [
+    "Sistema de autenticación simulado (login/register/recuperar contraseña)",
+    "Dashboard con estadísticas de progreso del usuario",
+    "Catálogo de lecciones interactivas organizadas por categorías",
+    "Sistema de vidas (3 máximo) que se pierden al fallar preguntas",
+    "Simuladores interactivos de apps móviles (WhatsApp, Email, Cámara, Videollamadas)",
+    "Asistente IA con chat y reconocimiento de voz (Google Gemini)",
+    "Sistema de lectura en voz alta (Text-to-Speech) para todas las lecciones",
+    "Simulación de pagos y suscripciones premium (Stripe simulado)",
+    "Anuncios recompensados para recuperar vidas",
+    "Sistema de logros y progreso gamificado",
+    "Selector de skins para comparar diseños (base, alternativa, final)"
+  ],
+
+  "studyObjective": {
+    "academicPurpose": "Demostrar impacto de principios de usabilidad y accesibilidad mediante comparación de tres implementaciones CSS",
+    "targetCurriculum": "Temario oficial DAW - Diseño de Interfaces Web",
+    "evaluationCriteria": [
+      "Aplicación de WCAG 2.1 AA",
+      "Principios de usabilidad (Ley de Fitts, jerarquía visual, feedback)",
+      "Diseño responsive mobile-first",
+      "Contraste de color adecuado",
+      "Navegación por teclado",
+      "Compatibilidad con lectores de pantalla"
+    ]
+  },
+
+  "skinSystem": {
+    "description": "Sistema de tres skins CSS intercambiables para demostrar buenas y malas prácticas de diseño",
+    "implementation": "React Context API + clases CSS dinámicas en body",
+    "skins": {
+      "base": {
+        "purpose": "Demostrar problemas de USABILIDAD y responsive",
+        "problems": [
+          "Jerarquía visual CASI INEXISTENTE (títulos 1.3rem vs texto 1rem)",
+          "Títulos sin peso bold, poco contraste con texto normal",
+          "Estadísticas dashboard sin destacar (1.4rem, peso 400)",
+          "Espaciado inconsistente (unas áreas 0.3rem, otras 3rem)",
+          "Cards muy juntas (0.2rem margin)",
+          "Formularios apretados (0.2rem padding)",
+          "Botones MUY pequeños 28px (viola Ley de Fitts severamente)",
+          "Botones juntos (0.1rem margin) - difícil seleccionar",
+          "Botones importantes con mucho espacio vacío alrededor",
+          "Feedback CASI inexistente (hover opacity 0.98)",
+          "Sin indicadores de carga visibles",
+          "Mensajes correcto/incorrecto poco claros",
+          "Opciones de respuesta sin hover",
+          "Responsive MUY deficiente en móvil:",
+          "  - Scroll horizontal inevitable (980px fijo)",
+          "  - Texto demasiado pequeño (0.75rem)",
+          "  - Botones 24px en móvil (imposible tocar)",
+          "  - Menú ocupa 80px (demasiado viewport)",
+          "  - Cards y columnas con ancho fijo 600px",
+          "Sin transiciones (cambios bruscos)",
+          "Inconsistencia: unos botones grandes, otros pequeños sin lógica"
+        ],
+        "activeOn": "currentSkin === 'base'",
+        "fileLocation": "/styles/skin-base.css"
+      },
+      "alternative": {
+        "purpose": "Demostrar problemas de ACCESIBILIDAD",
+        "problems": [
+          "Contraste insuficiente <4.5:1 (WCAG 1.4.3)",
+          "Sin indicadores de foco (WCAG 2.4.7)",
+          "Tamaño de fuente reducido <16px (WCAG 1.4.4)",
+          "Dependencia del color sin alternativas (WCAG 1.4.1)",
+          "Botones <44px (WCAG 2.5.5)",
+          "Labels poco visibles (WCAG 3.3.2)",
+          "Chat IA desactivado",
+          "Voz (TTS) desactivada",
+          "Sin hover visible en respuestas de lecciones",
+          "Colores apagados en lecciones"
+        ],
+        "activeOn": "currentSkin === 'alternative'",
+        "fileLocation": "/styles/skin-alternative.css"
+      },
+      "final": {
+        "purpose": "Implementación CORRECTA según WCAG 2.1 AA",
+        "achievements": [
+          "Contraste ≥6.2:1 (supera 4.5:1 requerido)",
+          "Foco visible 3px + sombra",
+          "Jerarquía clara (2.5rem → 2rem → 1.75rem → 1.5rem)",
+          "Espaciado sistemático (0.5rem multiples)",
+          "Botones ≥44px (cumple Ley de Fitts)",
+          "Responsive fluido mobile-first",
+          "Labels visibles y claros",
+          "Feedback visual inmediato",
+          "Navegación por teclado completa",
+          "Colores azules consistentes (#0d6efd)"
+        ],
+        "activeOn": "currentSkin === 'final'",
+        "fileLocation": "/styles/skin-final.css"
+      }
+    },
+    "selector": {
+      "location": "Header (solo usuarios autenticados)",
+      "component": "SkinSelector.tsx",
+      "persistence": "No persiste (reset al recargar página)",
+      "scope": "Toda la app excepto login/register"
+    }
+  },
+
+  "architecture": {
+    "entryPoint": "index.tsx",
+    "mainComponent": "App.tsx",
+    "routing": "Conditional rendering (no react-router)",
+    "contextProviders": ["SkinProvider (gestiona skin activa)"],
+    "stateManagement": {
+      "global": "userData (usuario autenticado, progreso, suscripción, vidas)",
+      "local": "useState en cada componente para UI específica"
+    }
+  },
+
+  "components": {
+    "authentication": [
+      {
+        "name": "Login.tsx",
+        "purpose": "Formulario de inicio de sesión",
+        "features": ["Validación básica", "Recordar usuario"]
+      },
+      {
+        "name": "Register.tsx",
+        "purpose": "Formulario de registro",
+        "features": ["Validación de email", "Confirmación de contraseña"]
+      },
+      {
+        "name": "ForgotPassword.tsx",
+        "purpose": "Recuperación de contraseña",
+        "features": ["Envío simulado de email"]
+      },
+      {
+        "name": "AuthAssistant.tsx",
+        "purpose": "Asistente visual en pantallas de auth",
+        "features": ["Guía contextual"]
+      }
+    ],
+    "mainApp": [
+      {
+        "name": "Header.tsx",
+        "purpose": "Navegación principal",
+        "features": ["Logo", "SkinSelector", "Botón logout"]
+      },
+      {
+        "name": "Dashboard.tsx",
+        "purpose": "Panel principal del usuario",
+        "features": ["Estadísticas", "Progreso", "Acceso a lecciones"]
+      },
+      {
+        "name": "Home.tsx",
+        "purpose": "Vista de categorías y lecciones",
+        "features": ["Grid de categorías", "Lista de lecciones", "Filtros"]
+      }
+    ],
+    "lessons": [
+      {
+        "name": "LessonView.tsx",
+        "purpose": "Vista de lección individual",
+        "features": [
+          "Sistema de pasos (instructional, multipleChoice, simulatorTask)",
+          "Barra de progreso",
+          "Sistema de vidas (visualización corazones)",
+          "Botón TTS para leer contenido",
+          "Feedback inmediato (correcto/incorrecto)",
+          "Modal al quedarse sin vidas"
+        ]
+      },
+      {
+        "name": "LessonCompletion.tsx",
+        "purpose": "Pantalla de lección completada",
+        "features": ["Animación confetti", "Resumen de logros"]
+      },
+      {
+        "name": "PracticeSimulator.tsx",
+        "purpose": "Simuladores interactivos de apps",
+        "apps": ["WhatsApp", "Email", "Cámara", "Videollamadas", "Word"],
+        "features": [
+          "Estado simulado de cada app",
+          "Resaltado de elementos objetivo",
+          "Validación de acciones correctas",
+          "Guía paso a paso con TTS"
+        ]
+      }
+    ],
+    "ai": [
+      {
+        "name": "AIAssistant.tsx",
+        "purpose": "Chat de soporte con IA",
+        "features": [
+          "Integración Google Gemini API",
+          "Reconocimiento de voz (Web Speech API)",
+          "Síntesis de voz (TTS) para respuestas",
+          "Botón flotante siempre disponible",
+          "Historial de conversación",
+          "Oculto en skin 'alternative'"
+        ]
+      }
+    ],
+    "monetization": [
+      {
+        "name": "OutOfLivesModal.tsx",
+        "purpose": "Modal al perder todas las vidas",
+        "options": [
+          "Ver anuncio recompensado",
+          "Comprar suscripción Premium",
+          "Salir"
+        ]
+      },
+      {
+        "name": "RewardedAdButton.tsx",
+        "purpose": "Botón para ver anuncio",
+        "reward": "Restaura 1 vida"
+      },
+      {
+        "name": "SimulatedRewardedAdModal.tsx",
+        "purpose": "Simulación de anuncio de 5 segundos",
+        "behavior": "Countdown + botón cerrar al finalizar"
+      },
+      {
+        "name": "SimulatedPaymentModal.tsx",
+        "purpose": "Simulación de pago Stripe",
+        "features": ["Formulario tarjeta", "Validación básica"]
+      },
+      {
+        "name": "StripeCheckoutButton.tsx",
+        "purpose": "Botón abrir modal de pago",
+        "plan": "Premium - vidas ilimitadas"
+      }
+    ],
+    "skinManagement": [
+      {
+        "name": "SkinContext.tsx",
+        "purpose": "Context API para gestión global de skin",
+        "exports": ["SkinProvider", "useSkin hook"],
+        "state": "currentSkin: 'base' | 'alternative' | 'final'"
+      },
+      {
+        "name": "SkinSelector.tsx",
+        "purpose": "Dropdown selector de skins",
+        "options": [
+          "Base (❌ rojo) - Mala Usabilidad",
+          "Alternativa (⚠️ amarillo) - Mala Accesibilidad",
+          "Final (✅ verde) - Correcta"
+        ]
+      }
+    ]
+  },
+
+  "dataStructures": {
+    "User": {
+      "fields": [
+        "email",
+        "name",
+        "progress",
+        "lives",
+        "isPremium",
+        "achievements",
+        "lessonsCompleted"
+      ],
+      "storage": "localStorage (simulado)",
+      "default": "3 vidas, no premium"
+    },
+    "Lesson": {
+      "fields": [
+        "id",
+        "title",
+        "description",
+        "category",
+        "difficulty",
+        "steps[]"
+      ],
+      "source": "data/lessons.ts",
+      "categories": ["Comunicación", "Contenido Digital", "Gestión de Archivos"]
+    },
+    "Step": {
+      "types": ["instructional", "multipleChoice", "simulatorTask"],
+      "fields": {
+        "instructional": ["type", "title", "content", "image/video"],
+        "multipleChoice": [
+          "type",
+          "question",
+          "options[]",
+          "correctAnswer",
+          "feedbackCorrect",
+          "feedbackIncorrect"
+        ],
+        "simulatorTask": ["type", "simulatorConfig"]
+      }
+    },
+    "SimulatorConfig": {
+      "fields": [
+        "app",
+        "taskDescription",
+        "initialState",
+        "highlightElement",
+        "expectedAction"
+      ],
+      "apps": ["whatsapp", "email", "camera", "videocall", "word"]
+    },
+    "Achievement": {
+      "fields": ["id", "title", "description", "icon", "condition"],
+      "source": "data/achievements.ts"
+    }
+  },
+
+  "userFlow": {
+    "unauthenticated": [
+      "1. Pantalla Login (puede ir a Register o ForgotPassword)",
+      "2. Usuario ingresa credenciales",
+      "3. Redirección a Dashboard"
+    ],
+    "authenticated": [
+      "1. Dashboard (ve estadísticas y progreso)",
+      "2. Navega a Home (selector de lecciones)",
+      "3. Selecciona lección",
+      "4. Completa pasos uno a uno",
+      "5. Pierde vidas si falla",
+      "6. Al quedarse sin vidas: ve anuncio o compra premium",
+      "7. Completa lección y obtiene logros",
+      "8. Vuelve a Dashboard con progreso actualizado"
+    ],
+    "skinComparison": [
+      "1. Usuario autenticado selecciona skin desde Header",
+      "2. Se aplica clase CSS a body",
+      "3. Toda la UI cambia instantáneamente",
+      "4. Usuario compara experiencias",
+      "5. Identifica problemas de usabilidad/accesibilidad"
+    ]
+  },
+
+  "externalAPIs": {
+    "googleGemini": {
+      "purpose": "Respuestas del asistente IA",
+      "file": "services/geminiService.ts",
+      "apiKey": "Configurado en config.ts",
+      "usage": "Chat contextual sobre tecnología digital"
+    },
+    "webSpeechAPI": {
+      "recognition": "window.SpeechRecognition (para entrada de voz)",
+      "synthesis": "window.speechSynthesis (para TTS)",
+      "language": "es-ES"
+    },
+    "stripeSimulation": {
+      "note": "NO real, solo simulación visual",
+      "purpose": "Demostrar flujo de pago premium"
+    }
+  },
+
+  "livesSystem": {
+    "maxLives": 3,
+    "lossCondition": "Respuesta incorrecta en multipleChoice",
+    "recoveryMethods": [
+      "Ver anuncio recompensado (+1 vida)",
+      "Comprar suscripción Premium (vidas ilimitadas)"
+    ],
+    "display": "Corazones rojos/grises en LessonView header"
+  },
+
+  "stylingApproach": {
+    "baseFramework": "Bootstrap 5.3.3 (clases utility-first)",
+    "customCSS": "index.css (animaciones, helpers, custom classes)",
+    "skins": "3 archivos CSS independientes con overrides usando !important",
+    "colors": {
+      "primary": "#0d6efd (Bootstrap blue)",
+      "success": "#198754",
+      "danger": "#dc3545",
+      "warning": "#ffc107"
+    },
+    "responsiveBreakpoints": {
+      "sm": "576px",
+      "md": "768px",
+      "lg": "992px",
+      "xl": "1200px"
+    }
+  },
+
+  "navigationStructure": {
+    "noRouter": true,
+    "approach": "Conditional rendering con estado 'currentView'",
+    "views": [
+      "login",
+      "register",
+      "forgotPassword",
+      "dashboard",
+      "home",
+      "lesson",
+      "lessonCompletion"
+    ],
+    "transitions": "Callbacks pasados como props"
+  },
+
+  "accessibility": {
+    "implemented": [
+      "Semantic HTML (header, main, footer, nav)",
+      "ARIA labels en botones e inputs",
+      "Keyboard navigation (Tab, Enter)",
+      "High contrast colors (WCAG AA)",
+      "Large touch targets (≥44px)",
+      "Text-to-Speech para todo el contenido",
+      "Clear error messages"
+    ],
+    "testable": "Comparación entre skins demuestra impacto"
+  },
+
+  "gamification": {
+    "elements": [
+      "Sistema de vidas visual",
+      "Barra de progreso por lección",
+      "Logros desbloqueables",
+      "Feedback inmediato con colores",
+      "Animación confetti al completar",
+      "Estadísticas en dashboard"
+    ],
+    "motivation": "Aumentar engagement de usuarios mayores"
+  },
+
+  "deploymentNotes": {
+    "buildCommand": "npm run build (o equivalente Vite)",
+    "outputDir": "dist/",
+    "requirements": [
+      "Servidor estático (Netlify, Vercel, GitHub Pages compatible)",
+      "Variables de entorno: GEMINI_API_KEY"
+    ],
+    "browserSupport": "Modernos (Chrome, Firefox, Safari, Edge últimas versiones)"
+  },
+
+  "documentation": {
+    "mainReadme": "README.md",
+    "skinsReadme": "README-SKINS.md (850+ líneas de análisis académico)",
+    "thisFile": "app-documentation.json (resumen completo para IA)"
+  },
+
+  "futureImprovements": [
+    "Persistencia real de progreso (backend + base de datos)",
+    "Más lecciones y simuladores",
+    "Integración Stripe real",
+    "Sistema de notificaciones",
+    "Modo oscuro",
+    "Traducción a otros idiomas",
+    "Tests unitarios y E2E"
+  ],
+
+  "academicContext": {
+    "subject": "Diseño de Interfaces Web (DIW)",
+    "course": "2º DAW (Desarrollo de Aplicaciones Web)",
+    "evaluationFocus": [
+      "Aplicación práctica de principios de usabilidad",
+      "Implementación WCAG 2.1 AA",
+      "Análisis comparativo de diseños",
+      "Documentación técnica y justificación académica"
+    ]
+  },
+
+  "notes": {
+    "skinPersistence": "Las skins NO persisten al recargar (por diseño académico)",
+    "dataSimulation": "Todos los datos son simulados, no hay backend real",
+    "authentication": "Login/register simulados, acepta cualquier email/contraseña",
+    "payments": "Stripe completamente simulado, no procesa pagos reales",
+    "aiLimitations": "Respuestas de IA dependen de límites de Google Gemini API"
+  }
+}

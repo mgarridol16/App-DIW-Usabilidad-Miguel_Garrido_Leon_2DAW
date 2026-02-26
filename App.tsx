@@ -1,21 +1,24 @@
-
-import React, { useState, useEffect, useCallback } from 'react';
-import { Home } from './components/Home';
-import { LessonView } from './components/LessonView';
-import { Header } from './components/Header';
-import { AIAssistant } from './components/AIAssistant';
-import { AuthAssistant } from './components/AuthAssistant';
-import { lessons } from './data/lessons';
-import { Login } from './components/Login';
-import { Register } from './components/Register';
-import { ForgotPassword } from './components/ForgotPassword';
-import { Dashboard } from './components/Dashboard';
-import type { Lesson, User, LessonState } from './types';
-import { achievements } from './data/achievements';
-import { apiService } from './services/apiService';
+import React, { useState, useEffect, useCallback } from "react";
+import { Home } from "./components/Home";
+import { LessonView } from "./components/LessonView";
+import { Header } from "./components/Header";
+import { AIAssistant } from "./components/AIAssistant";
+import { AuthAssistant } from "./components/AuthAssistant";
+import { WebMap } from "./components/WebMap";
+import { lessons } from "./data/lessons";
+import { Login } from "./components/Login";
+import { Register } from "./components/Register";
+import { ForgotPassword } from "./components/ForgotPassword";
+import { Dashboard } from "./components/Dashboard";
+import type { Lesson, User, LessonState } from "./types";
+import { achievements } from "./data/achievements";
+import { apiService } from "./services/apiService";
+import { SkinProvider } from "./contexts/SkinContext";
 
 const App: React.FC = () => {
-  const [view, setView] = useState<'login' | 'register' | 'forgotPassword' | 'app' | 'dashboard'>('login');
+  const [view, setView] = useState<
+    "login" | "register" | "forgotPassword" | "app" | "dashboard" | "webmap"
+  >("login");
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
   const [lessonState, setLessonState] = useState<LessonState | null>(null);
@@ -42,7 +45,7 @@ const App: React.FC = () => {
       setIsLoading(true);
       const user = await apiService.getUser(); // Fetch user data from backend
       setCurrentUser(user);
-      setView('app');
+      setView("app");
     } catch (error) {
       console.error("Login failed:", error);
       // Handle login error in UI
@@ -50,17 +53,17 @@ const App: React.FC = () => {
       setIsLoading(false);
     }
   };
-  
+
   const handleRegisterSuccess = (name: string, email: string) => {
     // After registration, typically the backend would log the user in
     handleLoginSuccess();
-  }
+  };
 
   const handleLogout = () => {
     setCurrentUser(null);
     setSelectedLesson(null);
     setLessonState(null);
-    setView('login');
+    setView("login");
   };
 
   const handleSelectLesson = async (lesson: Lesson) => {
@@ -76,16 +79,24 @@ const App: React.FC = () => {
       setIsLoading(false);
     }
   };
-  
+
   const handleStepComplete = (lessonId: string, newStepIndex: number) => {
-    setLessonState(prevState => prevState ? { ...prevState, currentStep: newStepIndex } : null);
+    setLessonState((prevState) =>
+      prevState ? { ...prevState, currentStep: newStepIndex } : null,
+    );
   };
-  
-  const handleSubmission = async (lessonId: string, stepIndex: number, answer: string) => {
+
+  const handleSubmission = async (
+    lessonId: string,
+    stepIndex: number,
+    answer: string,
+  ) => {
     try {
       const result = await apiService.submitAnswer(lessonId, stepIndex, answer);
       // The backend validates the answer and returns the new number of lives.
-      setLessonState(prevState => prevState ? { ...prevState, lives: result.newLives } : null);
+      setLessonState((prevState) =>
+        prevState ? { ...prevState, lives: result.newLives } : null,
+      );
       return result.isCorrect;
     } catch (error) {
       console.error("Error submitting answer:", error);
@@ -96,11 +107,11 @@ const App: React.FC = () => {
   const handleLifeRestored = useCallback(async () => {
     try {
       const { newLives } = await apiService.claimAdReward();
-      setLessonState(prevState => {
+      setLessonState((prevState) => {
         if (!prevState) return null;
         return { ...prevState, lives: newLives };
       });
-      setCurrentUser(prevUser => {
+      setCurrentUser((prevUser) => {
         if (!prevUser) return null;
         return { ...prevUser, lives: newLives };
       });
@@ -108,96 +119,149 @@ const App: React.FC = () => {
       console.error("Failed to claim ad reward", error);
     }
   }, []);
-  
+
   const handleSubscriptionSuccess = async () => {
     // The user has completed the educational payment simulation.
     // In our mock scenario, this grants them "premium" status.
     setIsLoading(true);
     try {
-        const updatedUser = await apiService.subscribeUser();
-        setCurrentUser(updatedUser);
-        // Go back to the home screen with the new user status.
-        setSelectedLesson(null);
-        setLessonState(null);
-        setView('app');
+      const updatedUser = await apiService.subscribeUser();
+      setCurrentUser(updatedUser);
+      // Go back to the home screen with the new user status.
+      setSelectedLesson(null);
+      setLessonState(null);
+      setView("app");
     } catch (error) {
-        console.error("Failed to process subscription simulation:", error);
+      console.error("Failed to process subscription simulation:", error);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
   const handleGoHome = async () => {
     setSelectedLesson(null);
     setLessonState(null);
-    setView('app');
+    setView("app");
     // Refresh user data in case progress was made
     if (currentUser) {
-        try {
-            const user = await apiService.getUser();
-            setCurrentUser(user);
-        } catch (error) {
-            console.error("Failed to refresh user data", error);
-        }
+      try {
+        const user = await apiService.getUser();
+        setCurrentUser(user);
+      } catch (error) {
+        console.error("Failed to refresh user data", error);
+      }
     }
   };
-  
+
   const handleGoToDashboard = () => {
     setSelectedLesson(null);
     setLessonState(null);
-    setView('dashboard');
-  }
+    setView("dashboard");
+  };
+
+  const handleGoToWebMap = () => {
+    setSelectedLesson(null);
+    setLessonState(null);
+    setView("webmap");
+  };
 
   const renderContent = () => {
-    if (isLoading && view !== 'login' && view !== 'register' && view !== 'forgotPassword') {
-        return <div className="min-vh-100 d-flex align-items-center justify-content-center"><p className="fs-4">Cargando...</p></div>
+    if (
+      isLoading &&
+      view !== "login" &&
+      view !== "register" &&
+      view !== "forgotPassword"
+    ) {
+      return (
+        <div className="min-vh-100 d-flex align-items-center justify-content-center">
+          <p className="fs-4">Cargando...</p>
+        </div>
+      );
     }
 
     if (!currentUser) {
       return (
         <>
-          {view === 'login' && <Login onLoginSuccess={handleLoginSuccess} onNavigateToRegister={() => setView('register')} onNavigateToForgotPassword={() => setView('forgotPassword')} />}
-          {view === 'register' && <Register onRegisterSuccess={(name, email) => handleRegisterSuccess(name, email)} onNavigateToLogin={() => setView('login')} />}
-          {view === 'forgotPassword' && <ForgotPassword onNavigateToLogin={() => setView('login')} />}
+          {view === "login" && (
+            <Login
+              onLoginSuccess={handleLoginSuccess}
+              onNavigateToRegister={() => setView("register")}
+              onNavigateToForgotPassword={() => setView("forgotPassword")}
+            />
+          )}
+          {view === "register" && (
+            <Register
+              onRegisterSuccess={(name, email) =>
+                handleRegisterSuccess(name, email)
+              }
+              onNavigateToLogin={() => setView("login")}
+            />
+          )}
+          {view === "forgotPassword" && (
+            <ForgotPassword onNavigateToLogin={() => setView("login")} />
+          )}
           <AuthAssistant />
         </>
       );
     }
-    
+
     return (
-     <div className="min-vh-100 bg-light text-dark">
-       <Header user={currentUser} onGoHome={handleGoHome} onLogout={handleLogout} />
-       <main className="container-lg p-4 p-md-5">
-          {view === 'app' && !selectedLesson && (
-             <Home lessons={lessons} user={currentUser} onSelectLesson={handleSelectLesson} onNavigateToDashboard={handleGoToDashboard} />
+      <div className="min-vh-100 bg-light text-dark">
+        <Header
+          user={currentUser}
+          onGoHome={handleGoHome}
+          onLogout={handleLogout}
+          onWebMap={handleGoToWebMap}
+        />
+        <main className="container-lg p-4 p-md-5">
+          {view === "app" && !selectedLesson && (
+            <Home
+              lessons={lessons}
+              user={currentUser}
+              onSelectLesson={handleSelectLesson}
+              onNavigateToDashboard={handleGoToDashboard}
+            />
           )}
-          {view === 'dashboard' && !selectedLesson && (
-             <Dashboard user={currentUser} lessons={lessons} achievements={achievements} onGoBack={handleGoHome} />
+          {view === "dashboard" && !selectedLesson && (
+            <Dashboard
+              user={currentUser}
+              lessons={lessons}
+              achievements={achievements}
+              onGoBack={handleGoHome}
+            />
+          )}
+          {view === "webmap" && !selectedLesson && (
+            <WebMap onGoBack={handleGoHome} />
           )}
           {selectedLesson && lessonState && (
-             <LessonView 
-                 lesson={selectedLesson} 
-                 initialState={lessonState}
-                 onGoBack={handleGoHome}
-                 onStepComplete={handleStepComplete}
-                 onSubmission={handleSubmission}
-                 onLifeRestored={handleLifeRestored}
-                 onSubscriptionSuccess={handleSubscriptionSuccess}
-             />
+            <LessonView
+              lesson={selectedLesson}
+              initialState={lessonState}
+              onGoBack={handleGoHome}
+              onStepComplete={handleStepComplete}
+              onSubmission={handleSubmission}
+              onLifeRestored={handleLifeRestored}
+              onSubscriptionSuccess={handleSubscriptionSuccess}
+            />
           )}
           {isLoading && !lessonState && selectedLesson && (
-            <div className="text-center p-5"><p className="fs-4">Cargando lección...</p></div>
+            <div className="text-center p-5">
+              <p className="fs-4">Cargando lección...</p>
+            </div>
           )}
-       </main>
-       <AIAssistant />
-       <footer className="text-center p-4 text-muted small mt-5">
-         <p>&copy; 2024 Portal de Capacitación Digital. Todos los derechos reservados.</p>
-       </footer>
-     </div>
+        </main>
+        <AIAssistant />
+        <footer className="text-center p-4 text-muted small mt-5">
+          <p>
+            &copy; 2024 Portal de Capacitación Digital. Todos los derechos
+            reservados.
+          </p>
+        </footer>
+      </div>
     );
   };
 
-  return <>{renderContent()}</>;
+  return <SkinProvider>{renderContent()}</SkinProvider>;
 };
 
 export default App;
