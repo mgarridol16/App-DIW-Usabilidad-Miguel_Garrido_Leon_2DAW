@@ -4,7 +4,6 @@ const API_KEY =
   import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY;
 
 if (!API_KEY) {
-  // This is a fallback for development. In a real environment, the key should be set.
   console.warn("API_KEY is not set. AI features will not work.");
 }
 
