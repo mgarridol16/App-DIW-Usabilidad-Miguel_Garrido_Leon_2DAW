@@ -7,6 +7,7 @@ interface HeaderProps {
   onGoHome: () => void;
   onLogout: () => void;
   onWebMap: () => void;
+  onAboutUs: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -14,6 +15,7 @@ export const Header: React.FC<HeaderProps> = ({
   onGoHome,
   onLogout,
   onWebMap,
+  onAboutUs,
 }) => {
   return (
     <header className="bg-primary text-white shadow-sm p-3 sticky-top d-flex align-items-center justify-content-between">
@@ -45,6 +47,17 @@ export const Header: React.FC<HeaderProps> = ({
             title="Mapa Web"
           >
             <i className="fas fa-sitemap fs-5"></i>
+          </button>
+        )}
+        {user && (
+          <button
+            onClick={onAboutUs}
+            className="btn btn-success rounded-circle d-flex align-items-center justify-content-center"
+            style={{ width: "48px", height: "48px" }}
+            aria-label="Sobre nosotros"
+            title="Sobre Nosotros"
+          >
+            <i className="fas fa-user-circle fs-5"></i>
           </button>
         )}
         {user && (

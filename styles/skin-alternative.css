@@ -238,14 +238,13 @@
    NAVEGACIÓN Y ESTRUCTURA
    ==================== */
 
-/* PROBLEMA: Header sin suficiente contraste */
+/* Header sin fondo de color */
 .skin-alternative header {
-  background-color: #d8e4ff !important; /* Azul muy claro */
-  color: #f8f8f8 !important;
+  color: #333 !important;
 }
 
 .skin-alternative header .text-white {
-  color: #f0f0f0 !important; /* Casi blanco sobre azul claro */
+  color: #333 !important;
 }
 
 /* ====================

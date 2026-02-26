@@ -1,0 +1,3 @@
+This file serves as a placeholder.
+The user should save their profile photo as: profile-photo.jpg
+The photo URL will be referenced from the AboutUs component.

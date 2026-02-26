@@ -171,6 +171,15 @@ const ListaView: React.FC = () => {
                         aplicación
                       </p>
                     </li>
+                    <li className="mb-2">
+                      <span className="fw-semibold text-dark">
+                        Sobre Nosotros
+                      </span>
+                      <p className="text-muted small mb-0">
+                        Currículum del alumno, contexto académico y experiencia
+                        profesional
+                      </p>
+                    </li>
                   </ul>
                 </li>
 
@@ -369,24 +378,27 @@ const DiagramView: React.FC = () => {
         {/* ENCABEZADO MEJORADO */}
         <div className="mb-5">
           <div
-            className="alert d-flex align-items-center mb-4 border-0"
+            className="alert d-flex align-items-center mb-4 border-start border-5 border-primary"
             style={{
-              background: "linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%)",
-              color: "white",
+              background: "#ffffff",
+              color: "#212529",
               padding: "20px",
               borderRadius: "12px",
-              boxShadow: "0 8px 24px rgba(13, 202, 240, 0.3)",
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
             }}
           >
             <i
-              className="fas fa-diagram-project me-3"
+              className="fas fa-diagram-project me-3 text-primary"
               style={{ fontSize: "28px" }}
             ></i>
             <div>
-              <strong style={{ fontSize: "18px" }}>
+              <strong style={{ fontSize: "18px", color: "#212529" }}>
                 Flujo de Navegación Completo
               </strong>
-              <p className="mb-0 mt-1" style={{ fontSize: "14px" }}>
+              <p
+                className="mb-0 mt-1 text-secondary"
+                style={{ fontSize: "14px" }}
+              >
                 Estructura visual de cómo se conectan todas las vistas y módulos
                 de la aplicación
               </p>
@@ -396,18 +408,17 @@ const DiagramView: React.FC = () => {
 
         {/* CONTENEDOR DEL DIAGRAMA SVG */}
         <div
-          className="overflow-auto rounded-3 border-2 p-4"
+          className="overflow-auto rounded-3 border p-4"
           style={{
             minHeight: "820px",
-            background:
-              "linear-gradient(135deg, rgba(248, 249, 255, 0.8) 0%, rgba(240, 245, 255, 0.8) 100%)",
-            border: "2px solid #e3f2fd",
+            background: "#ffffff",
+            border: "2px solid #e0e0e0",
           }}
         >
           <svg
-            viewBox="0 0 1400 950"
+            viewBox="0 0 1600 950"
             className="w-100"
-            style={{ minWidth: "1100px" }}
+            style={{ minWidth: "1200px" }}
             xmlns="http://www.w3.org/2000/svg"
           >
             <defs>
@@ -466,6 +477,16 @@ const DiagramView: React.FC = () => {
                 <stop
                   offset="100%"
                   style={{ stopColor: "#0d6efd", stopOpacity: 1 }}
+                />
+              </linearGradient>
+              <linearGradient id="gradAbout" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop
+                  offset="0%"
+                  style={{ stopColor: "#A78BFA", stopOpacity: 1 }}
+                />
+                <stop
+                  offset="100%"
+                  style={{ stopColor: "#8B5CF6", stopOpacity: 1 }}
                 />
               </linearGradient>
 
@@ -601,7 +622,7 @@ const DiagramView: React.FC = () => {
               </text>
             </g>
 
-            {/* FLECHAS: HOME -> TRES OPCIONES */}
+            {/* FLECHAS: HOME -> CUATRO OPCIONES */}
             <path className="diagram-arrow" d="M 480 245 Q 330 245 280 360" />
             <text className="diagram-text-label" x="370" y="240">
               Aprender
@@ -612,8 +633,20 @@ const DiagramView: React.FC = () => {
               Ver progreso
             </text>
 
-            <path className="diagram-arrow" d="M 820 245 Q 970 245 1020 360" />
-            <text className="diagram-text-label" x="900" y="240">
+            <path
+              className="diagram-arrow-dashed"
+              d="M 820 245 Q 970 245 1020 360"
+              strokeWidth="2"
+            />
+            <text
+              className="diagram-text-label"
+              x="900"
+              y="235"
+              style={{ fill: "#666", fontSize: "11px" }}
+            >
+              [Alternativo]
+            </text>
+            <text className="diagram-text-label" x="900" y="250">
               Explorar
             </text>
 
@@ -739,6 +772,68 @@ const DiagramView: React.FC = () => {
                 Esta página
               </text>
             </g>
+
+            {/* ===== NIVEL 3: ABOUT US ===== */}
+            <g>
+              <rect
+                x="1220"
+                y="360"
+                width="340"
+                height="130"
+                rx="14"
+                className="diagram-box"
+                fill="url(#gradAbout)"
+                stroke="#7C3AED"
+                strokeWidth="2.5"
+              />
+              <rect
+                x="1235"
+                y="372"
+                width="310"
+                height="106"
+                rx="12"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+                opacity="0.4"
+              />
+              <text className="diagram-text" x="1390" y="395">
+                👤 SOBRE NOSOTROS
+              </text>
+              <text className="diagram-text-small" x="1390" y="415">
+                Currículum del alumno
+              </text>
+              <text className="diagram-text-small" x="1390" y="430">
+                Contexto académico
+              </text>
+              <text className="diagram-text-small" x="1390" y="445">
+                Experiencia profesional
+              </text>
+              <text className="diagram-text-label" x="1390" y="468">
+                Práctica DIW • Europass
+              </text>
+            </g>
+
+            {/* FLECHA: HOME -> SOBRE NOSOTROS */}
+            <path
+              className="diagram-arrow-dashed"
+              d="M 820 245 Q 1100 245 1220 420"
+              strokeWidth="2"
+              stroke="#8B5CF6"
+              markerEnd="url(#arrowhead-dashed)"
+              opacity="0.7"
+            />
+            <text
+              className="diagram-text-label"
+              x="1040"
+              y="235"
+              style={{ fill: "#666", fontSize: "11px" }}
+            >
+              [Alternativo]
+            </text>
+            <text className="diagram-text-label" x="1060" y="250">
+              Perfil
+            </text>
 
             {/* FLECHA: MÓDULOS -> LECCIÓN */}
             <path className="diagram-arrow" d="M 280 490 L 280 550" />

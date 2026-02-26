@@ -5,6 +5,7 @@ import { Header } from "./components/Header";
 import { AIAssistant } from "./components/AIAssistant";
 import { AuthAssistant } from "./components/AuthAssistant";
 import { WebMap } from "./components/WebMap";
+import { AboutUs } from "./components/AboutUs";
 import { lessons } from "./data/lessons";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
@@ -17,7 +18,13 @@ import { SkinProvider } from "./contexts/SkinContext";
 
 const App: React.FC = () => {
   const [view, setView] = useState<
-    "login" | "register" | "forgotPassword" | "app" | "dashboard" | "webmap"
+    | "login"
+    | "register"
+    | "forgotPassword"
+    | "app"
+    | "dashboard"
+    | "webmap"
+    | "aboutus"
   >("login");
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
@@ -165,6 +172,12 @@ const App: React.FC = () => {
     setView("webmap");
   };
 
+  const handleGoToAboutUs = () => {
+    setSelectedLesson(null);
+    setLessonState(null);
+    setView("aboutus");
+  };
+
   const renderContent = () => {
     if (
       isLoading &&
@@ -212,6 +225,7 @@ const App: React.FC = () => {
           onGoHome={handleGoHome}
           onLogout={handleLogout}
           onWebMap={handleGoToWebMap}
+          onAboutUs={handleGoToAboutUs}
         />
         <main className="container-lg p-4 p-md-5">
           {view === "app" && !selectedLesson && (
@@ -232,6 +246,9 @@ const App: React.FC = () => {
           )}
           {view === "webmap" && !selectedLesson && (
             <WebMap onGoBack={handleGoHome} />
+          )}
+          {view === "aboutus" && !selectedLesson && (
+            <AboutUs onGoBack={handleGoHome} />
           )}
           {selectedLesson && lessonState && (
             <LessonView
