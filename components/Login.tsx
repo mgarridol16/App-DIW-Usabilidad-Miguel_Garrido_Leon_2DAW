@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { SkinSelector } from "./SkinSelector";
+import { validateCredentials } from "../data/users";
 
 interface LoginProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (email?: string, name?: string) => void;
   onNavigateToRegister: () => void;
   onNavigateToForgotPassword: () => void;
 }
@@ -12,7 +13,7 @@ export const Login: React.FC<LoginProps> = ({
   onNavigateToRegister,
   onNavigateToForgotPassword,
 }) => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +32,18 @@ export const Login: React.FC<LoginProps> = ({
     setIsLoading(true);
 
     setTimeout(() => {
-      onLoginSuccess();
+      // Validar credenciales contra usuarios fijos
+      const user = validateCredentials(username, password);
+      
+      if (user) {
+        // Credenciales válidas
+        onLoginSuccess(user.email, user.name);
+      } else {
+        // Credenciales inválidas
+        setError("Usuario o contraseña incorrectos. Intente de nuevo.");
+        speak("Usuario o contraseña incorrectos. Por favor, intente de nuevo.");
+      }
+      
       setIsLoading(false);
     }, 1500);
   };
@@ -64,16 +76,16 @@ export const Login: React.FC<LoginProps> = ({
           <div>
             <div className="d-flex align-items-center justify-content-between mb-1">
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="form-label fs-5 fw-medium text-body-secondary"
               >
-                Correo Electrónico
+                Usuario o Correo Electrónico
               </label>
               <button
                 type="button"
                 onClick={() =>
                   speak(
-                    "Este es el campo para su correo electrónico. Es su dirección única en internet, como 'nombre@gmail.com'. Se utiliza para identificarle en los servicios online.",
+                    "Este es el campo para su nombre de usuario o correo electrónico. Escriba su usuario, por ejemplo 'diego', o su correo electrónico como 'nombre@gmail.com'.",
                   )
                 }
                 className="btn btn-link text-primary p-0"
@@ -83,13 +95,13 @@ export const Login: React.FC<LoginProps> = ({
               </button>
             </div>
             <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               className="form-control form-control-lg"
-              placeholder="usuario@correo.com"
+              placeholder="diego o usuario@correo.com"
             />
           </div>
 

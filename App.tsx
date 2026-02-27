@@ -6,6 +6,7 @@ import { AIAssistant } from "./components/AIAssistant";
 import { AuthAssistant } from "./components/AuthAssistant";
 import { WebMap } from "./components/WebMap";
 import { AboutUs } from "./components/AboutUs";
+import { ProjectVideos } from "./components/ProjectVideos";
 import { lessons } from "./data/lessons";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
@@ -25,6 +26,7 @@ const App: React.FC = () => {
     | "dashboard"
     | "webmap"
     | "aboutus"
+    | "projectvideos"
   >("login");
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
@@ -47,10 +49,17 @@ const App: React.FC = () => {
     checkSession();
   }, []);
 
-  const handleLoginSuccess = async () => {
+  const handleLoginSuccess = async (email?: string, name?: string) => {
     try {
       setIsLoading(true);
-      const user = await apiService.getUser(); // Fetch user data from backend
+      let user: User;
+      if (email && name) {
+        // If credentials provided (from login/register), create/update user
+        user = await apiService.loginOrRegister(name, email);
+      } else {
+        // Otherwise fetch existing user
+        user = await apiService.getUser();
+      }
       setCurrentUser(user);
       setView("app");
     } catch (error) {
@@ -62,8 +71,8 @@ const App: React.FC = () => {
   };
 
   const handleRegisterSuccess = (name: string, email: string) => {
-    // After registration, typically the backend would log the user in
-    handleLoginSuccess();
+    // After registration, create the user with their actual data
+    handleLoginSuccess(email, name);
   };
 
   const handleLogout = () => {
@@ -178,6 +187,12 @@ const App: React.FC = () => {
     setView("aboutus");
   };
 
+  const handleGoToProjectVideos = () => {
+    setSelectedLesson(null);
+    setLessonState(null);
+    setView("projectvideos");
+  };
+
   const renderContent = () => {
     if (
       isLoading &&
@@ -229,6 +244,7 @@ const App: React.FC = () => {
           onLogout={handleLogout}
           onWebMap={handleGoToWebMap}
           onAboutUs={handleGoToAboutUs}
+          onProjectVideos={handleGoToProjectVideos}
         />
         <main id="main-content" className="container-lg p-4 p-md-5">
           {view === "app" && !selectedLesson && (
@@ -252,6 +268,9 @@ const App: React.FC = () => {
           )}
           {view === "aboutus" && !selectedLesson && (
             <AboutUs onGoBack={handleGoHome} />
+          )}
+          {view === "projectvideos" && !selectedLesson && (
+            <ProjectVideos onGoBack={handleGoHome} />
           )}
           {selectedLesson && lessonState && (
             <LessonView

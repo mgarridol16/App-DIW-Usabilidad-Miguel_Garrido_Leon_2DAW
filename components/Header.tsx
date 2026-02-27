@@ -8,6 +8,7 @@ interface HeaderProps {
   onLogout: () => void;
   onWebMap: () => void;
   onAboutUs: () => void;
+  onProjectVideos: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   onLogout,
   onWebMap,
   onAboutUs,
+  onProjectVideos,
 }) => {
   return (
     <header className="bg-primary text-white shadow-sm p-2 p-md-3 sticky-top d-flex align-items-center justify-content-between flex-wrap">
@@ -45,6 +47,16 @@ export const Header: React.FC<HeaderProps> = ({
             title="Mapa Web"
           >
             <i className="fas fa-sitemap"></i>
+          </button>
+        )}
+        {user && (
+          <button
+            onClick={onProjectVideos}
+            className="btn btn-warning rounded-circle d-flex align-items-center justify-content-center header-btn-responsive"
+            aria-label="Vídeos del proyecto"
+            title="Vídeos del Proyecto"
+          >
+            <i className="fas fa-video"></i>
           </button>
         )}
         {user && (
