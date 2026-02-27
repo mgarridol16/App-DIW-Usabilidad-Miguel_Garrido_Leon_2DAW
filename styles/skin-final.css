@@ -30,6 +30,45 @@
    JERARQUÍA VISUAL CLARA
    ==================== */
 
+/* Tipografia legible y espaciado normalizado */
+.skin-final body,
+.skin-final p,
+.skin-final h1,
+.skin-final h2,
+.skin-final h3,
+.skin-final .form-label,
+.skin-final .btn,
+.skin-final input,
+.skin-final textarea,
+.skin-final li {
+  font-family: "Segoe UI", "Tahoma", sans-serif !important;
+  letter-spacing: normal !important;
+  line-height: 1.6 !important;
+  text-transform: none !important;
+}
+
+/* ====================
+   RESPETAR PREFERS-REDUCED-MOTION
+   ==================== */
+
+/* Sin animaciones si el usuario prefiere movimiento reducido (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  .skin-final * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Animaciones suaves solo si el usuario las permite */
+.skin-final .animate-fade-in,
+.skin-final .animate-slide-up,
+.skin-final .highlight-animation {
+  animation-duration: 0.5s !important;
+  animation-timing-function: ease-in-out !important;
+}
+
 /* Títulos principales destacados */
 .skin-final .display-5,
 .skin-final .display-6 {
@@ -101,6 +140,13 @@
 /* ====================
    INDICADORES DE FOCO VISIBLES
    ==================== */
+
+/* Enlace de salto visible y con buen contraste (WCAG 2.4.1) */
+.skin-final .skip-link {
+  background-color: #ffffff !important;
+  color: #0d6efd !important;
+  border-color: #0d6efd !important;
+}
 
 /* Foco claramente visible para navegación por teclado */
 .skin-final *:focus-visible,
@@ -254,6 +300,16 @@
   border-radius: 0.5rem !important;
   line-height: 1.5 !important;
   color: #1e293b !important;
+  width: 100% !important; /* Responsive - se adapta al contenedor */
+  max-width: 100% !important;
+}
+
+.skin-final input[type="text"],
+.skin-final input[type="email"],
+.skin-final input[type="password"],
+.skin-final textarea {
+  width: 100% !important; /* Fluido - sin overflow */
+  max-width: 100% !important;
 }
 
 .skin-final .form-control::placeholder {
@@ -346,15 +402,83 @@
    ==================== */
 
 .skin-final header {
-  padding: 1rem !important;
+  padding: 0.5rem 1rem !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Botones del header responsive */
+.skin-final .header-btn-responsive {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+  font-size: 0.9rem !important;
+}
+
+/* Botón flotante de chat responsive */
+.skin-final .floating-chat-btn {
+  bottom: 16px !important;
+  right: 16px !important;
+  width: 56px !important;
+  height: 56px !important;
+  transition: transform 0.2s !important;
+  z-index: 1050 !important;
+  font-size: 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .skin-final header {
+    padding: 1rem 1.5rem !important;
+  }
+
+  .skin-final .header-btn-responsive {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    font-size: 1rem !important;
+  }
+
+  .skin-final .floating-chat-btn {
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 1.75rem !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .skin-final .header-btn-responsive {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    font-size: 1.1rem !important;
+  }
+
+  .skin-final .floating-chat-btn {
+    bottom: 24px !important;
+    right: 24px !important;
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 2rem !important;
+  }
 }
 
 .skin-final header h1,
 .skin-final header .h2 {
-  font-size: 1.5rem !important;
+  font-size: 1.25rem !important;
   font-weight: 700 !important;
   color: #ffffff !important;
+}
+
+@media (min-width: 768px) {
+  .skin-final header h1,
+  .skin-final header .h2 {
+    font-size: 1.5rem !important;
+  }
 }
 
 .skin-final header .text-white {

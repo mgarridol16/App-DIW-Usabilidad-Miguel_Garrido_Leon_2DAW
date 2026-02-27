@@ -18,22 +18,21 @@ export const Header: React.FC<HeaderProps> = ({
   onAboutUs,
 }) => {
   return (
-    <header className="bg-primary text-white shadow-sm p-3 sticky-top d-flex align-items-center justify-content-between">
+    <header className="bg-primary text-white shadow-sm p-2 p-md-3 sticky-top d-flex align-items-center justify-content-between flex-wrap">
       <button
         onClick={onGoHome}
-        className="d-flex align-items-center gap-3 text-decoration-none text-white border-0 bg-transparent p-0"
+        className="d-flex align-items-center gap-2 text-decoration-none text-white border-0 bg-transparent p-0"
         style={{ cursor: "pointer" }}
       >
-        <i className="fas fa-book-open fs-2"></i>
-        <h1 className="h2 mb-0 fw-bold d-none d-md-block">
+        <i className="fas fa-book-open fs-3 fs-md-2"></i>
+        <h1 className="h5 h-md-4 h-lg-2 mb-0 fw-bold d-none d-sm-block">
           Portal de Capacitación
         </h1>
-        <h1 className="h4 mb-0 fw-bold d-block d-md-none">Capacitación</h1>
       </button>
-      <div className="d-flex align-items-center gap-3">
+      <div className="d-flex align-items-center gap-1 gap-md-2 gap-lg-3 flex-wrap">
         {user && (
-          <div className="d-none d-sm-block text-end">
-            <p className="fw-semibold mb-0">{user.name}</p>
+          <div className="d-none d-lg-block text-end">
+            <p className="fw-semibold mb-0 small">{user.name}</p>
             <p className="small text-white-50 mb-0">{user.email}</p>
           </div>
         )}
@@ -41,33 +40,30 @@ export const Header: React.FC<HeaderProps> = ({
         {user && (
           <button
             onClick={onWebMap}
-            className="btn btn-info rounded-circle d-flex align-items-center justify-content-center"
-            style={{ width: "48px", height: "48px" }}
+            className="btn btn-info rounded-circle d-flex align-items-center justify-content-center header-btn-responsive"
             aria-label="Mapa web de la aplicación"
             title="Mapa Web"
           >
-            <i className="fas fa-sitemap fs-5"></i>
+            <i className="fas fa-sitemap"></i>
           </button>
         )}
         {user && (
           <button
             onClick={onAboutUs}
-            className="btn btn-success rounded-circle d-flex align-items-center justify-content-center"
-            style={{ width: "48px", height: "48px" }}
+            className="btn btn-success rounded-circle d-flex align-items-center justify-content-center header-btn-responsive"
             aria-label="Sobre nosotros"
             title="Sobre Nosotros"
           >
-            <i className="fas fa-user-circle fs-5"></i>
+            <i className="fas fa-user-circle"></i>
           </button>
         )}
         {user && (
           <button
             onClick={onLogout}
-            className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center"
-            style={{ width: "48px", height: "48px" }}
+            className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center header-btn-responsive"
             aria-label="Cerrar sesión"
           >
-            <i className="fas fa-sign-out-alt fs-5"></i>
+            <i className="fas fa-sign-out-alt"></i>
           </button>
         )}
       </div>

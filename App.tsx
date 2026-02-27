@@ -220,6 +220,9 @@ const App: React.FC = () => {
 
     return (
       <div className="min-vh-100 bg-light text-dark">
+        <a href="#main-content" className="skip-link">
+          Saltar al contenido principal
+        </a>
         <Header
           user={currentUser}
           onGoHome={handleGoHome}
@@ -227,7 +230,7 @@ const App: React.FC = () => {
           onWebMap={handleGoToWebMap}
           onAboutUs={handleGoToAboutUs}
         />
-        <main className="container-lg p-4 p-md-5">
+        <main id="main-content" className="container-lg p-4 p-md-5">
           {view === "app" && !selectedLesson && (
             <Home
               lessons={lessons}

@@ -21,6 +21,43 @@
 */
 
 /* ====================
+   PROBLEMA EXTREMO: TIPOGRAFIA ILEGIBLE
+   ==================== */
+
+/* Fuente monospace + espaciado excesivo = lectura incómoda (exagerado pero legible) */
+.skin-alternative body,
+.skin-alternative p,
+.skin-alternative h1,
+.skin-alternative h2,
+.skin-alternative h3,
+.skin-alternative .form-label,
+.skin-alternative .btn,
+.skin-alternative input,
+.skin-alternative textarea,
+.skin-alternative li {
+  font-family: "Courier New", monospace !important;
+  letter-spacing: 0.15em !important;
+  line-height: 1.3 !important;
+}
+
+/* ====================
+   PROBLEMA EXTREMO: CONTRASTE CASI INVISIBLE
+   ==================== */
+
+/* Texto casi blanco sobre fondo blanco = casi ilegible */
+.skin-alternative body,
+.skin-alternative .text-body,
+.skin-alternative .text-body-secondary,
+.skin-alternative .text-muted,
+.skin-alternative .text-secondary,
+.skin-alternative .form-label,
+.skin-alternative .form-text,
+.skin-alternative small,
+.skin-alternative .small {
+  color: #efefef !important;
+}
+
+/* ====================
    CONTRASTE INSUFICIENTE
    ==================== */
 
@@ -573,17 +610,117 @@
 }
 
 /* ====================
+   CONTENEDORES Y RESPONSIVE
+   ==================== */
+
+/* Contenedores con padding progresivo (mantiene buena usabilidad) */
+.skin-alternative .container-lg,
+.skin-alternative .container,
+.skin-alternative main,
+.skin-alternative section {
+  padding: 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .skin-alternative .container-lg,
+  .skin-alternative .container,
+  .skin-alternative main,
+  .skin-alternative section {
+    padding: 2rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .skin-alternative .container-lg,
+  .skin-alternative .container,
+  .skin-alternative main,
+  .skin-alternative section {
+    padding: 3rem !important;
+  }
+}
+
+/* ====================
    HEADER Y NAVEGACIÓN
    ==================== */
 
 /* PROBLEMA: Header con bajo contraste */
 .skin-alternative header {
   background-color: #e8f0ff !important; /* Azul muy claro */
+  padding: 0.5rem 1rem !important;
+}
+
+/* Botones del header responsive */
+.skin-alternative .header-btn-responsive {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+  font-size: 0.9rem !important;
+}
+
+/* Botón flotante de chat responsive */
+.skin-alternative .floating-chat-btn {
+  bottom: 16px !important;
+  right: 16px !important;
+  width: 56px !important;
+  height: 56px !important;
+  transition: transform 0.2s !important;
+  z-index: 1050 !important;
+  font-size: 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .skin-alternative header {
+    padding: 1rem 1.5rem !important;
+  }
+
+  .skin-alternative .header-btn-responsive {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    font-size: 1rem !important;
+  }
+
+  .skin-alternative .floating-chat-btn {
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 1.75rem !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .skin-alternative .header-btn-responsive {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    font-size: 1.1rem !important;
+  }
+
+  .skin-alternative .floating-chat-btn {
+    bottom: 24px !important;
+    right: 24px !important;
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 2rem !important;
+  }
 }
 
 .skin-alternative header .text-white,
 .skin-alternative header h1 {
   color: #f8f8f8 !important; /* Casi blanco sobre azul claro */
+  font-size: 1.25rem !important;
+}
+
+@media (min-width: 768px) {
+  .skin-alternative header .text-white,
+  .skin-alternative header h1 {
+    font-size: 1.5rem !important;
+  }
 }
 
 /* PROBLEMA: Botón de logout sin contraste */
@@ -658,10 +795,9 @@
   display: none !important; /* Iconos ocultos en layout de lecciones */
 }
 
-/* PROBLEMA: Círculos de iconos quedan vacíos, confusos */
+/* PROBLEMA: Ocultar completamente los círculos vacíos - sin información visual */
 .skin-alternative .card-hover-effect .rounded-circle {
-  background-color: #f5f5f5 !important; /* Círculo vacío gris */
-  border: 1px solid #e8e8e8 !important;
+  display: none !important; /* Circulitos desaparecen completamente */
 }
 
 /* Deshabilitar color rojo en botón de salir - no aplica en skin alternative */
@@ -669,4 +805,129 @@
 .skin-alternative .btn-danger {
   background-color: #6c757d !important; /* Gris neutral */
   border-color: #6c757d !important;
+}
+
+/* ====================
+   OCULTACIÓN DE ELEMENTOS NO ACCESIBLES EN ESTA SKIN
+   ==================== */
+
+/* Los botones de voz NO son realmente accesibles - se ocultan */
+.skin-alternative .btn-link i.fa-volume-up,
+.skin-alternative button:has(> i.fa-volume-up) {
+  display: none !important;
+}
+
+/* Ocultación de botones de voz en formularios */
+.skin-alternative .d-flex button[type="button"]:has(i.fa-volume-up) {
+  display: none !important;
+}
+
+/* Ocultar el agente de IA en esta skin (no tiene asistencia accesible) */
+.skin-alternative .btn-warning.floating-chat-btn,
+.skin-alternative .position-fixed.floating-chat-btn {
+  display: none !important;
+}
+
+/* ====================
+  RUPTURA INTENCIONAL: DISOCIACIÓN LABEL-INPUT
+  ==================== */
+
+/* PROBLEMA CRÍTICO: Ocultar los labels de formularios en la skin alternative */
+/* Cuando está activada la skin alternative, los labels desaparecen visualmente */
+/* Esto hace que:
+  - Los usuarios con lector de pantalla no escuchen "Correo electrónico, campo de edición"
+  - Los usuarios no puedan hacer clic en el label para activar el input
+  - El área clickeable se reduzca solo al input pequeño
+  - La información de contexto desaparezca (¿Es email, contraseña o nombre?)
+*/
+.skin-alternative .form-label {
+  display: none !important;
+}
+
+/* Este es el error que se demuestra en el Video 5: ASOCIACIÓN LABEL-INPUT EN FORMULARIOS */
+/* Propósito educativo: Mostrar en Video cómo está ROTO en Skin Alternative */
+/* vs cómo funciona BIEN en Skin Final con etiquetas asociadas correctamente */
+
+/* ====================
+   PROBLEMA: SIN ENLACE DE SALTO
+   ==================== */
+
+/* Ocultar el enlace "Saltar al contenido" en la skin alternative */
+.skin-alternative .skip-link {
+  display: none !important;
+}
+
+/* ====================
+   PROBLEMA: ANIMACIONES DE TEXTO QUE INTERFIEREN CON LA LECTURA (DISLEXIA)
+   ==================== */
+
+/* Parpadeo de texto que distrae durante la lectura */
+@keyframes text-flicker-dislexia {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(1px);
+  }
+}
+
+/* Efecto "temblor" en texto - muy problemático para dislexia */
+@keyframes text-jitter {
+  0% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: translateY(0.5px);
+  }
+  50% {
+    transform: translateY(-0.5px);
+  }
+  75% {
+    transform: translateY(0.5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* El texto parpadea y se mueve al hacer hover - distrae la lectura */
+.skin-alternative .btn,
+.skin-alternative a,
+.skin-alternative button {
+  transition: all 0.1s !important;
+}
+
+.skin-alternative .btn:hover,
+.skin-alternative a:hover,
+.skin-alternative button:hover {
+  animation: text-flicker-dislexia 0.5s ease-in-out !important;
+}
+
+/* Texto parpadea cuando pulsas - peor aún */
+.skin-alternative .btn:active,
+.skin-alternative button:active {
+  animation: text-jitter 0.3s linear !important;
+}
+
+/* En hover/active, el contenido de texto también tiembla (MUY MALO para dislexia) */
+.skin-alternative .btn:hover *,
+.skin-alternative .button:hover * {
+  animation: text-jitter 0.4s ease-in-out !important;
+}
+
+/* IGNORA prefers-reduced-motion - ESPECIALMENTE PROBLEMÁTICO para dislexia */
+@media (prefers-reduced-motion: reduce) {
+  .skin-alternative .btn:hover,
+  .skin-alternative a:hover,
+  .skin-alternative button:hover {
+    animation: text-flicker-dislexia 0.5s ease-in-out !important;
+  }
+
+  .skin-alternative .btn:active,
+  .skin-alternative button:active {
+    animation: text-jitter 0.3s linear !important;
+  }
 }

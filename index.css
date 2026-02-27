@@ -26,6 +26,30 @@
   --amber-600: #d97706;
 }
 
+/* Skip link (keyboard bypass) */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #ffffff;
+  color: #0b5ed7;
+  border: 2px solid #0b5ed7;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transform: translateY(-200%);
+  transition: transform 0.2s ease;
+  z-index: 1050;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25);
+}
+
 /* BG COLORS */
 .bg-slate-50 {
   background-color: var(--slate-50) !important;

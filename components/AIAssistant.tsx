@@ -19,6 +19,7 @@ if (recognition) {
 export const AIAssistant: React.FC = () => {
   const { currentSkin } = useSkin();
   const [isOpen, setIsOpen] = useState(false);
+  const [isSpeechEnabled, setIsSpeechEnabled] = useState(true);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       sender: "ai",
@@ -33,6 +34,7 @@ export const AIAssistant: React.FC = () => {
 
   // Función para leer texto en voz alta
   const speak = (text: string) => {
+    if (!isSpeechEnabled) return;
     window.speechSynthesis.cancel(); // Detiene cualquier locución anterior
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "es-ES";
@@ -79,7 +81,7 @@ export const AIAssistant: React.FC = () => {
       window.speechSynthesis.cancel();
       if (isListening) recognition?.stop();
     };
-  }, [isOpen]);
+  }, [isOpen, isSpeechEnabled]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -134,14 +136,7 @@ export const AIAssistant: React.FC = () => {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="btn btn-primary rounded-circle shadow-lg d-flex align-items-center justify-content-center position-fixed"
-        style={{
-          bottom: "24px",
-          right: "24px",
-          width: "80px",
-          height: "80px",
-          transition: "transform 0.2s",
-        }}
+        className="btn btn-primary rounded-circle shadow-lg d-flex align-items-center justify-content-center position-fixed floating-chat-btn"
         onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
         onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
         aria-label="Abrir asistente de soporte"
@@ -161,14 +156,44 @@ export const AIAssistant: React.FC = () => {
           <i className="fas fa-comment-dots fs-4"></i>
           <h3 className="h5 mb-0 fw-bold">Asistente de Soporte</h3>
         </div>
-        <button
-          onClick={() => setIsOpen(false)}
-          className="btn-close btn-close-white"
-        ></button>
+        <div className="d-flex align-items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              const nextValue = !isSpeechEnabled;
+              setIsSpeechEnabled(nextValue);
+              if (!nextValue) {
+                window.speechSynthesis.cancel();
+              }
+            }}
+            className="btn btn-sm btn-light d-flex align-items-center justify-content-center"
+            aria-label={
+              isSpeechEnabled
+                ? "Desactivar lectura por voz"
+                : "Activar lectura por voz"
+            }
+            title={isSpeechEnabled ? "Silenciar voz" : "Activar voz"}
+          >
+            <i
+              className={`fas ${isSpeechEnabled ? "fa-volume-up" : "fa-volume-mute"}`}
+            ></i>
+          </button>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="btn-close btn-close-white"
+            aria-label="Cerrar asistente"
+          ></button>
+        </div>
       </header>
 
       <div className="flex-grow-1 p-3 overflow-y-auto bg-light">
-        <div className="d-flex flex-column gap-3">
+        <div
+          className="d-flex flex-column gap-3"
+          role="log"
+          aria-live="polite"
+          aria-relevant="additions text"
+          aria-busy={isLoading}
+        >
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -222,6 +247,9 @@ export const AIAssistant: React.FC = () => {
                     className="spinner-grow spinner-grow-sm"
                     role="status"
                   ></span>
+                  <span className="visually-hidden">
+                    El asistente esta escribiendo
+                  </span>
                 </div>
               </div>
             </div>

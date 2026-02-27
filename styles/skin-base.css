@@ -76,16 +76,30 @@
   margin-bottom: 0.2rem !important; /* Sin respiración */
 }
 
-/* PROBLEMA: Contenedores apretados */
+/* PROBLEMA: Contenedores con padding fijo e insuficiente (no progresivo) */
 .skin-base .container-lg,
-.skin-base main {
-  padding: 0.5rem !important;
+.skin-base .container,
+.skin-base main,
+.skin-base section {
+  padding: 0.5rem !important; /* Fijo para móvil y escritorio - MAL */
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
 }
 
 /* PROBLEMA: Cards muy juntas (mala organización espacial) */
 .skin-base .card {
   margin: 0.2rem !important;
   padding: 0.5rem !important;
+  min-width: 300px !important; /* Ancho fijo - causa overflow en móvil */
+}
+
+/* PROBLEMA: Contenedores de cards sin flex-wrap (scroll horizontal) */
+.skin-base .row {
+  flex-wrap: nowrap !important; /* Fuerza scroll horizontal */
+}
+
+.skin-base .d-flex {
+  flex-wrap: nowrap !important; /* Las cards se salen de la pantalla */
 }
 
 /* ====================
@@ -202,12 +216,6 @@
     font-size: 1.1rem !important;
   }
 
-  /* PROBLEMA: Menú que ocupa demasiado espacio */
-  .skin-base header {
-    padding: 1.5rem !important;
-    min-height: 80px !important; /* Ocupa mucho viewport */
-  }
-
   /* PROBLEMA: Botones todavía más pequeños en móvil */
   .skin-base .btn {
     padding: 0.2rem 0.4rem !important;
@@ -256,11 +264,35 @@
    HEADER Y NAVEGACIÓN
    ==================== */
 
-/* PROBLEMA: Header sin diferenciación clara */
+/* PROBLEMA: Header que consume demasiado viewport en móvil */
 .skin-base header {
-  padding: 0.3rem !important;
+  padding: 1.5rem !important;
+  min-height: 80px !important; /* Ocupa mucho espacio vertical */
   box-shadow: none !important;
 }
+
+/* Botones del header - TAMAÑO FIJO (mala usabilidad y NO responsive) */
+.skin-base .header-btn-responsive {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+  font-size: 0.75rem !important;
+}
+
+/* Botón flotante de chat - TAMAÑO FIJO (demasiado grande en móvil) */
+.skin-base .floating-chat-btn {
+  bottom: 24px !important;
+  right: 24px !important;
+  width: 80px !important;
+  height: 80px !important;
+  transition: transform 0.2s !important;
+  z-index: 1050 !important;
+  font-size: 2rem !important;
+}
+
+/* SIN MEDIA QUERIES - esto es intencionalmente malo para demostrar problemas responsive */
 
 .skin-base header h1,
 .skin-base header .h2 {
@@ -277,6 +309,16 @@
   font-size: 0.75rem !important;
   border: 1px solid #e5e5e5 !important;
   margin-bottom: 0.2rem !important; /* Sin espacio entre campos */
+  width: 400px !important; /* Ancho fijo - se sale en móvil */
+  max-width: 400px !important;
+}
+
+.skin-base input[type="text"],
+.skin-base input[type="email"],
+.skin-base input[type="password"],
+.skin-base textarea {
+  width: 450px !important; /* Causa overflow horizontal en móvil */
+  min-width: 450px !important;
 }
 
 .skin-base .form-control:focus {
@@ -290,6 +332,23 @@
   color: #b0b0b0 !important; /* Poco contraste */
   margin-bottom: 0.05rem !important;
   font-weight: 300 !important;
+}
+
+/* ====================
+   PROBLEMA: NO HAY PLACEHOLDERS (El usuario debe recordar qué va en cada campo)
+   ==================== */
+
+/* PROBLEMA: Placeholders ocultos - sin guía visual */
+.skin-base input::placeholder,
+.skin-base textarea::placeholder {
+  color: transparent !important; /* Invisible - usuario debe recordar */
+}
+
+.skin-base input[type="text"]::placeholder,
+.skin-base input[type="email"]::placeholder,
+.skin-base input[type="password"]::placeholder {
+  color: transparent !important; /* NO HAY PISTA - viola Nielsen */
+  opacity: 0 !important;
 }
 
 /* ====================
@@ -567,4 +626,68 @@
 .skin-base .btn-danger {
   background-color: #6c757d !important; /* Gris neutral */
   border-color: #6c757d !important;
+}
+
+/* ====================
+   INCUMPLIMIENTO DE CONSISTENCIA: TODOS LOS BOTONES MISMO COLOR
+   ==================== */
+
+/* PROBLEMA: Todos los botones son gris, sin diferenciación de significado */
+.skin-base .btn-primary,
+.skin-base .btn-success,
+.skin-base .btn-info,
+.skin-base .btn-warning {
+  background-color: #6c757d !important; /* TODOS GRIS - incumple Nielsen */
+  border-color: #6c757d !important;
+  color: white !important;
+}
+
+.skin-base .btn-primary:hover,
+.skin-base .btn-success:hover,
+.skin-base .btn-info:hover,
+.skin-base .btn-warning:hover {
+  background-color: #5a6268 !important; /* Mismo gris más oscuro */
+  border-color: #5a6268 !important;
+}
+
+/* PROBLEMA: Iconos también sin colores diferenciadores */
+.skin-base .text-primary,
+.skin-base .text-success,
+.skin-base .text-info,
+.skin-base .text-warning,
+.skin-base .text-danger {
+  color: #6c757d !important; /* TODO GRIS - imposible distinguir */
+}
+
+/* ====================
+   OCULTACIÓN DE ELEMENTOS NO ACCESIBLES EN ESTA SKIN
+   ==================== */
+
+/* Los botones de voz NO son realmente accesibles en esta skin - se ocultan */
+.skin-base .btn-link i.fa-volume-up,
+.skin-base button:has(> i.fa-volume-up) {
+  display: none !important;
+}
+
+/* Ocultación de botones de voz en formularios */
+.skin-base .d-flex button[type="button"]:has(i.fa-volume-up) {
+  display: none !important;
+}
+
+/* Ocultar el agente de IA en esta skin (mala usabilidad) */
+.skin-base .btn-primary.floating-chat-btn,
+.skin-base .position-fixed.floating-chat-btn {
+  display: none !important;
+}
+
+/* Ocultar indicador de fortaleza de contraseña (no hay ayuda en skin-base) */
+.skin-base .progress,
+.skin-base .progress-bar {
+  display: none !important;
+}
+
+/* Ocultar texto de fortaleza de contraseña */
+.skin-base p[className*="text-"],
+.skin-base .mt-1.fw-semibold {
+  display: none !important;
 }
